@@ -1,9 +1,9 @@
 from groq import Groq
-import os
+import os,sys
 from dotenv import load_dotenv
 import re
-from prompts_temp import PromptTemplates
-
+sys.path.append('iks-rag-pipelines/app/utils')
+from prompts import PromptTemplates
 load_dotenv()
 
 client = Groq(api_key=os.getenv('GROQ_API_KEY'))
@@ -63,7 +63,7 @@ def get_bot_response(context="", question=""):
         messages=[
             {
                 "role": "system",
-                "content": "You are a highly knowledgeable and detail-oriented assistant, specializing in providing precise and contextually accurate answers. Your responses should follow a structured format: Summary, Answer, and Conclusion. write the full response in maximum of 300-400 words",
+                "content": "You are a highly knowledgeable and detail-oriented assistant, specializing in providing precise and contextually accurate answers. Your responses should follow a structured format: Summary, Answer, and Conclusion. write the full response with the format i have mentioned",
             },
             {
                 "role": "user",
@@ -71,7 +71,7 @@ def get_bot_response(context="", question=""):
             },
         ],
         model="deepseek-r1-distill-llama-70b",
-        max_tokens=1000,
+        max_tokens=2000,
     )
     return remove_think_tokens(chat_completion.choices[0].message.content)
 
