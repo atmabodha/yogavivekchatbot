@@ -2,8 +2,7 @@ from groq import Groq
 import os
 from dotenv import load_dotenv
 import re
-from app.utils.prompts import PromptTemplates
-
+from prompts_temp import PromptTemplates
 
 load_dotenv()
 
@@ -58,12 +57,13 @@ def remove_think_tokens(text):
 def get_bot_response(context="", question=""):
     query_type = classify_query(question)
     prompt = prepare_prompt(question, context, query_type)
+    print(prompt)
 
     chat_completion = client.chat.completions.create(
         messages=[
             {
                 "role": "system",
-                "content": "You are a highly knowledgeable and detail-oriented assistant, specializing in providing precise and contextually accurate answers. Your responses should follow a structured format: Summary, Answer, and Conclusion.",
+                "content": "You are a highly knowledgeable and detail-oriented assistant, specializing in providing precise and contextually accurate answers. Your responses should follow a structured format: Summary, Answer, and Conclusion. write the full response in maximum of 300-400 words",
             },
             {
                 "role": "user",
@@ -74,4 +74,6 @@ def get_bot_response(context="", question=""):
         max_tokens=1000,
     )
     return remove_think_tokens(chat_completion.choices[0].message.content)
+
+print(get_bot_response(context=""" "Gita Dhritarashtra said, ""What did my people and the sons of Pandu do when they had assembled together, eager for battle, on the holy plain of Kurukshetra, O Sanjaya?""", question="how does the gita start"))
 
