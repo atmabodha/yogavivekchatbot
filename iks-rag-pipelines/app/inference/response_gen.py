@@ -1,9 +1,9 @@
 from groq import Groq
-import os
+import os,sys
 from dotenv import load_dotenv
-import re
-from utils.prompts import PromptTemplates
-
+import re 
+sys.path.append('iks-rag-pipelines/app/utils')
+from prompts import PromptTemplates
 
 load_dotenv()
 
