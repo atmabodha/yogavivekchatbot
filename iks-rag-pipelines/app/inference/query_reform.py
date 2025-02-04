@@ -7,7 +7,7 @@ client = Groq(api_key=os.getenv('GROQ_API_KEY'))
 def remove_think_tokens(text):
     return re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
 
-def rewrite_query_for_rag(context=""):
+def rewrite_query_for_rag(query=""):
     chat_completion = client.chat.completions.create(
         messages=[
             {
@@ -24,10 +24,10 @@ def rewrite_query_for_rag(context=""):
             },
             {
                 "role": "user",
-                "content": f"Rewrite the following query for better retrieval: {context}",
+                "content": f"Rewrite the following query for better retrieval: {query}",
             },
         ],
-        model="deepseek-r1-distill-llama-70b",
+        model="llama3-8b-8192",
         max_tokens=500,
     )
     return  remove_think_tokens(chat_completion.choices[0].message.content)
