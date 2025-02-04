@@ -48,17 +48,8 @@ def classify_query(query):
 
 # ---- Prompt construction ----
 def prepare_prompt(query, verses, query_type):
-    verse_citations = format_verse_citations(verses[:3]) if verses else "No relevant verses found."
     template = getattr(PromptTemplates, query_type, PromptTemplates.default)
-    return template.format(query=query, verses=verse_citations)
-
-
-def format_verse_citations(verses):
-    return "\n\n".join(
-        f"[{v['book']} {v['chapter']}.{v['verse']}]: {v['translation']}\n"
-        f"Explanation: {v['explanation']}"
-        for v in verses
-    )
+    return template.format(query=query, verses=verses)
 
 
 def remove_think_tokens(text):
