@@ -4,7 +4,7 @@ import spacy
 import pickle
 import os
 
-def generate_sentence_embeddings(csv_path, model_name="sentence-transformers/multi-qa-distilbert-cos-v1", output_prefix="yoga"):
+def generate_sentence_embeddings(csv_path, model_name="sentence-transformers/multi-qa-distilbert-cos-v1", output_prefix="gita"):
     try:
         translation = {"धृतराष्ट्र":"Dhritarashtra","सञ्जय":"Sanjay","अर्जुन":"Arjun","भगवान":"God","संजय": "Sanjay"}
         nlp = spacy.load("en_core_web_sm")
@@ -17,8 +17,6 @@ def generate_sentence_embeddings(csv_path, model_name="sentence-transformers/mul
             raise FileNotFoundError(f"CSV file not found: {csv_path}")
         
         data = pd.read_csv(csv_path)
-        if not all(col in data.columns for col in ["chapter", "verse", "translation", "speaker"]):
-            raise ValueError("Missing required columns in CSV file")
         
         # Generate story text
         story = ""
@@ -56,4 +54,4 @@ def generate_sentence_embeddings(csv_path, model_name="sentence-transformers/mul
         print(f"Error: {e}")
         return None, None
 
-embeddings, sentences = generate_sentence_embeddings("dataset/Patanjali_Yoga_Sutras_Verses_English_Questions.csv")
+embeddings, sentences = generate_sentence_embeddings("iks-rag-pipelines/app/dataset/Bhagwad_Gita_Verses_English_Questions.csv")

@@ -6,12 +6,13 @@ from qdrant_client.http.models import Distance, VectorParams
 from dotenv import load_dotenv
 import os
 
-def load_data_to_qdrant(path_embed,path_sentence):
-    load_dotenv()
+load_dotenv()
+
+def load_data_to_qdrant(path_embed,path_sentence,collection_name):
     
-    with open(f"{path_embed}.pkl", "rb") as fp:
+    with open(f"{path_embed}", "rb") as fp:
         sentence_embedings = pickle.load(fp)
-    with open(f"{path_sentence}.pkl", "rb") as f:
+    with open(f"{path_sentence}", "rb") as f:
         enhanced_sentences = pickle.load(f)
     
     qdrant_client = QdrantClient(
@@ -19,7 +20,6 @@ def load_data_to_qdrant(path_embed,path_sentence):
         api_key=os.environ.get('QDRANT_API_KEY'),
     )
     
-    collection_name = "Yoga"
     vector_size = len(sentence_embedings[0])  
     qdrant_client.recreate_collection(
         collection_name=collection_name,
@@ -28,17 +28,16 @@ def load_data_to_qdrant(path_embed,path_sentence):
     
     for i in range(len(sentence_embedings)):
         qdrant_client.upsert(
-            collection_name="Yoga",
+            collection_name=collection_name,
             points=[
                 {
                     "id": i,
                     "vector": sentence_embedings[i],
-                    "translation": enhanced_sentences[i],
-                    "payload": {} 
+                    "payload": {"translation": enhanced_sentences[i]}
                 }
             ]
         )
     
     print("Data loaded successfully.")
 
-load_data_to_qdrant()
+load_data_to_qdrant("iks-rag-pipelines/app/dataset/sentence_embeddings_yoga.pkl","iks-rag-pipelines/app/dataset/enhanced_sentences_yoga.pkl","yoga_collection")
