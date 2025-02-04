@@ -1,5 +1,3 @@
-
-
 class PromptTemplates:
 
     default = """Question: {query}
