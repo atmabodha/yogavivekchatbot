@@ -51,3 +51,10 @@ def check_valid(context=""):
         max_tokens=3,
     )
     return chat_completion.choices[0].message.content
+
+
+query = input("Enter Query :")
+if(check_offensive_language(query) == False):
+    print(check_valid(query))
+else:
+    print("Retry")

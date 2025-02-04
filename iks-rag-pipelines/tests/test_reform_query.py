@@ -1,6 +1,9 @@
 from groq import Groq
 import os
 import re
+from dotenv import load_dotenv
+
+load_dotenv()
 
 client = Groq(api_key=os.getenv('GROQ_API_KEY'))
 
@@ -33,3 +36,5 @@ def rewrite_query_for_rag(context=""):
     return  remove_think_tokens(chat_completion.choices[0].message.content)
 
 
+query = input("Enter Query :")
+print(rewrite_query_for_rag(query=query))
