@@ -34,11 +34,6 @@ def generate_sentence_embeddings(csv_path, model_name="sentence-transformers/mul
         data = pd.read_csv(csv_path)
         logging.info("CSV file loaded successfully.")
         
-        required_columns = ["chapter", "verse", "translation", "speaker"]
-        if not all(col in data.columns for col in required_columns):
-            logging.error("Missing required columns in CSV file.")
-            raise ValueError("Missing required columns in CSV file")
-        
         # Generate story text
         story = ""
         for i in range(len(data)):
