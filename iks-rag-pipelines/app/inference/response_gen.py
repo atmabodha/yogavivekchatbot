@@ -2,16 +2,72 @@ from groq import Groq
 import os
 from dotenv import load_dotenv
 import re
+from utils.prompts import PromptTemplates
+
 
 load_dotenv()
 
 client = Groq(api_key=os.getenv('GROQ_API_KEY'))
+
+# ---- Query classification based on keywords ----
+def classify_query(query):
+    query_lower = query.lower().strip()
+
+    categories = {
+        "philosophical": [
+            'meaning', 'truth', 'nature', 'reality', 'consciousness', 'soul',
+            'dharma', 'karma', 'existence', 'purpose', 'free will', 'illusion',
+            'self', 'ego', 'mind', 'maya', 'moksha', 'non-duality', 'eternal'
+        ],
+        "practical": [
+            'how to', 'what should', 'guide', 'help', 'advice', 'practice',
+            'technique', 'method', 'way', 'steps', 'daily', 'routine', 'apply',
+            'habit', 'improve', 'develop'
+        ],
+        "comparative": [
+            'difference', 'compare', 'versus', 'vs', 'contrast', 'relation',
+            'similarities', 'distinction', 'connection'
+        ],
+        "storytelling": [
+            'story', 'example', 'parable', 'analogy', 'illustration', 'narrative'
+        ],
+        "meditation": [
+            'meditation', 'reflect', 'contemplate', 'focus', 'inner peace',
+            'mindfulness', 'self-awareness', 'visualization'
+        ]
+    }
+
+    for category, keywords in categories.items():
+        if any(kw in query_lower for kw in keywords):
+            return category
+
+    if len(query_lower.split()) < 3 or query_lower in ["?", "explain", "clarify"]:
+        return "clarification"
+
+    return "default"
+
+# ---- Prompt construction ----
+def prepare_prompt(query, verses, query_type):
+    verse_citations = format_verse_citations(verses[:3]) if verses else "No relevant verses found."
+    template = getattr(PromptTemplates, query_type, PromptTemplates.default)
+    return template.format(query=query, verses=verse_citations)
+
+
+def format_verse_citations(verses):
+    return "\n\n".join(
+        f"[{v['book']} {v['chapter']}.{v['verse']}]: {v['translation']}\n"
+        f"Explanation: {v['explanation']}"
+        for v in verses
+    )
 
 
 def remove_think_tokens(text):
     return re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
 
 def get_bot_response(context="", question=""):
+    query_type = classify_query(question)
+    prompt = prepare_prompt(question, context, query_type)
+
     chat_completion = client.chat.completions.create(
         messages=[
             {
@@ -20,18 +76,7 @@ def get_bot_response(context="", question=""):
             },
             {
                 "role": "user",
-                "content": (
-                    f"Given the following context:\n\n"
-                    f"--- Context Start ---\n{context}\n--- Context End ---\n\n"
-                    f"Answer the question: {question}\n\n"
-                    f"Instructions:\n"
-                    f"- First, summarize the relevant parts of the context that are used to answer the question.\n"
-                    f"- Then, provide a detailed and precise answer to the question based on the summarized context.\n"
-                    f"- Finally, conclude by reiterating the main points and ensuring the answer is clear and concise.\n"
-                    f"- Your response should rely strictly on the provided context.\n"
-                    f"- Do not add any information or assumptions not explicitly mentioned in the context.\n"
-                    f"- Use clear reasoning and explain your answer in a way that is simple and easy to understand.\n"
-                ),
+                "content": prompt,
             },
         ],
         model="deepseek-r1-distill-llama-70b",
