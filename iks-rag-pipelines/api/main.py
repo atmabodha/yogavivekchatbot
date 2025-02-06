@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+
 from api.helper.auto_complete import (
     AutocompleteRequest,
     AutocompleteResponse
