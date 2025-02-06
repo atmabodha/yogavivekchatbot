@@ -3,6 +3,10 @@ from groq import Groq
 import os
 from better_profanity import profanity
 from dotenv import load_dotenv
+import sys
+
+sys.path.append("iks-rag-pipelines/app/inference")
+
 from query_filter import *
 from query_reform import rewrite_query_for_rag
 from find_correct_collection import *
@@ -41,3 +45,4 @@ def pipeline_rag(query):
 
     return "Query blocked due to invalid or offensive content."
 
+print(pipeline_rag("I am confused in life help me with gita"))
