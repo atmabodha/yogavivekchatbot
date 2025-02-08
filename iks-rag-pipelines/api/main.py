@@ -1,23 +1,30 @@
 from fastapi import FastAPI
-from api.helper.auto_complete import (
+from dotenv import load_dotenv
+import sys
+sys.path.append('..')
+from app.inference.pipeline import pipeline_rag
+
+load_dotenv()
+from helper.auto_complete import (
     AutocompleteRequest,
     AutocompleteResponse
 )
-from api.helper.query_prediction import (
+from helper.query_prediction import (
     QueryPredictionRequest,
     QueryPredictionResponse
 )
-from api.helper.chat_completion import (
+from helper.chat_completion import (
     ChatCompletionRequest,
     ChatCompletionResponse,
+    CompletionResponse,
     Reference
 )
-from api.helper.retrieve_references import (
+from helper.retrieve_references import (
     RetrieveReferencesRequest,
     RetrieveReferencesResponse,
     ReferenceDetail
 )
-from api.helper.regenerate_response import (
+from helper.regenerate_response import (
     RegenerateRequest,
     RegenerateResponse
 )
@@ -108,6 +115,7 @@ async def retrieve_references(request: RetrieveReferencesRequest):
     return RetrieveReferencesResponse(references=dummy_references)
 
 @app.post("/v1/regenerate", response_model=RegenerateResponse)
+
 async def regenerate_response(request: RegenerateRequest):
     """
     Endpoint to regenerate a response based on feedback.
@@ -129,6 +137,12 @@ async def regenerate_response(request: RegenerateRequest):
         new_response=dummy_response,
         references=dummy_references
     )
+
+#API for pipeline
+@app.post("/v1/response")
+async def regenerate_response(query: str):
+    new_response = pipeline_rag(query)  
+    return {'response' : new_response}
 
 @app.get("/status")
 async def status():

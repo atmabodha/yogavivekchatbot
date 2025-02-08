@@ -13,3 +13,6 @@ class ChatCompletionResponse(BaseModel):
     response: str
     references: List[Reference]
     confidence: float
+
+class CompletionResponse(BaseModel):
+    response: str
