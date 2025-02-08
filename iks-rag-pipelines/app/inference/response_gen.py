@@ -3,8 +3,8 @@ import os, sys
 from dotenv import load_dotenv
 import re
 
-sys.path.append("iks-rag-pipelines/app/utils")
-from prompts import PromptTemplates
+sys.path.append('..')
+from app.utils.prompts import PromptTemplates
 
 load_dotenv()
 

@@ -18,26 +18,6 @@ load_dotenv()
 
 client = Groq(api_key=os.getenv('GROQ_API_KEY'))
 
-import time
-from groq import Groq
-import os
-from better_profanity import profanity
-from dotenv import load_dotenv
-import sys
-
-sys.path.append("iks-rag-pipelines/app/inference")
-
-from query_filter import *
-from query_reform import rewrite_query_for_rag
-from find_correct_collection import *
-from retrieve_documents import *
-from response_gen import *
-from validation import check_valid_answer
-
-load_dotenv()
-
-client = Groq(api_key=os.getenv('GROQ_API_KEY'))
-
 
 def pipeline_rag(query, max_retries=3):
     start_time = time.time()

@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import List
-from api.helper.chat_completion import Reference
+from helper.chat_completion import Reference
 
 class RegenerateRequest(BaseModel):
     query: str
