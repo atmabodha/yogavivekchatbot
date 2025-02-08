@@ -1,16 +1,23 @@
 "use client";
 
-
-import Chat from '@/components/Chat/Chat';
-import Sidebar from '@/components/Sidebar/Sidebar';
-import { useState } from 'react';
-
+import { useEffect, useState, useCallback } from "react";
+import Chat from "@/components/Chat/Chat";
+import Sidebar from "@/components/Sidebar/Sidebar";
 
 export default function Home() {
-
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // ... authentication logic ...
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsSidebarOpen(false);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const handleCloseSidebar = useCallback(() => setIsSidebarOpen(false), []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
@@ -31,16 +38,16 @@ export default function Home() {
         {/* Sidebar */}
         <div
           className={`fixed lg:relative z-40 h-[calc(100vh-4rem)] lg:h-screen w-[320px] transform transition-transform duration-200 ease-in-out
-            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}
+            ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}
         >
-          <Sidebar onClose={() => setIsSidebarOpen(false)} />
+          <Sidebar onClose={handleCloseSidebar} />
         </div>
 
         {/* Overlay */}
         {isSidebarOpen && (
           <div
             className="fixed inset-0 bg-black/50 z-30 lg:hidden transition-opacity"
-            onClick={() => setIsSidebarOpen(false)}
+            onClick={handleCloseSidebar}
           />
         )}
 
@@ -51,5 +58,4 @@ export default function Home() {
       </div>
     </div>
   );
-} 
-
+}
