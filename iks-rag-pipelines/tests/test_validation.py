@@ -36,3 +36,4 @@ def check_valid_answer(q="", a="", c=" "):
         max_tokens=3,
     )
     return chat_completion.choices[0].message.content
+
