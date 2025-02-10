@@ -64,7 +64,7 @@ export default function Sidebar({ onClose }: SidebarProps) {
     <div className="fixed inset-y-0 left-0 w-full sm:w-80 h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col transition-all">
       {/* Header Section */}
       <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-        <div className="flex items-center gap-3">
+        {/* <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full flex items-center justify-center">
             <Image
               src="/assets/images/samay.png"
@@ -75,12 +75,12 @@ export default function Sidebar({ onClose }: SidebarProps) {
             />
           </div>
           <h1 className="text-xl font-bold text-gray-900 dark:text-white">SAMAY</h1>
-        </div>
+        </div> */}
 
         {/* Close Button for Mobile */}
         <button
           onClick={onClose}
-          className="sm:hidden text-gray-600 dark:text-gray-300 text-lg"
+          className="sm:hidden text-indigo-600 dark:text-gray-300 text-lg font-bold text-right"
         >
           ✖
         </button>

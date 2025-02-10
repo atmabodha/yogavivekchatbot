@@ -9,9 +9,10 @@ interface ChatInputProps {
   onInputChange: (input: string) => void;
   isLoading: boolean;
   value: string; // Value from parent when selecting a suggested query
+  className?: string;
 }
 
-export default function ChatInput({ onSend, onInputChange, isLoading, value }: ChatInputProps) {
+export default function ChatInput({ onSend, onInputChange, isLoading, value, className }: ChatInputProps) {
   const [message, setMessage] = useState("");
 
   const debouncedInputChange = useRef(
@@ -40,7 +41,7 @@ export default function ChatInput({ onSend, onInputChange, isLoading, value }: C
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-2">
+    <form onSubmit={handleSubmit} className={`flex gap-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-2 ${className}`}>
       <textarea
         value={message}
         onChange={handleChange}

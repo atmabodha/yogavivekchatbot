@@ -4,17 +4,19 @@ interface QuerySuggestionsProps {
   suggestions: string[];
   predictedQuery?: string;
   onSelect: (query: string) => void;
+  className?: string;
 }
 
 export default function QuerySuggestions({ 
   suggestions, 
   predictedQuery, 
-  onSelect 
+  onSelect,
+  className
 }: QuerySuggestionsProps) {
   if (!suggestions.length && !predictedQuery) return null;
 
   return (
-    <div className="space-y-2">
+    <div className={`space-y-2 ${className}`}>
       {/* Predicted Query Suggestion */}
       {predictedQuery && (
         <div className="text-sm">
