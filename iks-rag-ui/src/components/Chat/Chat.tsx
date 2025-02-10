@@ -5,7 +5,7 @@ import { ChatMessage } from "@/types/chat";
 import MessageList from "./MessageList";
 import ChatInput from "./ChatInput";
 import QuerySuggestions from "./QuerySuggestions";
-import { mockApiService } from "@/lib/mockApiService";
+import { apiService } from "@/lib/apiService";
 import { motion } from "framer-motion";
 
 // Predefined categories for question suggestions
@@ -83,7 +83,7 @@ export default function Chat() {
     // Fetch response from API
     setIsLoading(true);
     try {
-      const response = await mockApiService.getChatResponse(content);
+      const response = await apiService.getChatResponse(content);
       setMessages((prev) => [...prev, response]); // Append bot response
     } catch (error) {
       console.error("Error fetching response:", error);
@@ -105,8 +105,8 @@ export default function Chat() {
 
     try {
       const [newSuggestions, predicted] = await Promise.all([
-        mockApiService.getSuggestions(input),
-        mockApiService.getPredictedQuery(input),
+        apiService.getSuggestions(input),
+        apiService.getPredictedQuery(input),
       ]);
       setSuggestions(newSuggestions);
       setPredictedQuery(predicted);
