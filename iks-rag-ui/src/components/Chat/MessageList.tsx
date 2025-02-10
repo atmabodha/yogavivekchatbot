@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { ChatMessage } from "@/types/chat";
 import ReferenceList from "./ReferenceList";
 import { motion } from "framer-motion";
+import ReactMarkdown from "react-markdown";
 
 interface MessageListProps {
   messages: ChatMessage[];
@@ -17,23 +18,30 @@ export default function MessageList({ messages }: MessageListProps) {
   }, [messages]);
 
   return (
-    <div className="space-y-4 px-2">
-      {messages.map((message, index) => (
+    <div className="space-y-6">
+      {messages.map((message) => (
         <motion.div
           key={message.id}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: index * 0.05 }}
           className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
         >
           <div
-            className={`p-4 rounded-2xl max-w-[85%] shadow-lg transition-all duration-300 ${
+            className={`max-w-[85%] md:max-w-[75%] rounded-2xl px-4 py-3 ${
               message.role === "user"
-                ? "bg-blue-500 text-white"
-                : "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                ? "bg-indigo-600 text-white"
+                : "bg-white dark:bg-gray-800 shadow-md"
             }`}
           >
-            <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+            <ReactMarkdown
+              className={`prose ${
+                message.role === "user"
+                  ? "prose-invert"
+                  : "prose-gray dark:prose-invert"
+              } max-w-none prose-p:leading-relaxed prose-pre:bg-gray-100 dark:prose-pre:bg-gray-900 prose-pre:p-2 prose-pre:rounded`}
+            >
+              {message.content}
+            </ReactMarkdown>
 
             {/* Reference List (if available) */}
             {message.references && message.references.length > 0 && (

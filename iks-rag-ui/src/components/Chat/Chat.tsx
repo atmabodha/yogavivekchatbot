@@ -170,41 +170,50 @@ export default function Chat() {
   );
 
   return (
-    <div className="flex flex-col h-full">
-{/* Chat messages section */}
-<div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700">
-  {messages.length === 0 ? (
-    renderWelcomeScreen()
-  ) : (
-    <div className="max-w-3xl mx-auto p-4 md:p-8 space-y-6">
-      <MessageList messages={messages} />
-      {isLoading && (
-        <motion.div 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          transition={{ repeat: Infinity, duration: 1, ease: "easeInOut" }}
-          className="text-gray-500 dark:text-gray-400 text-sm italic"
-        >
-          Typing...
-        </motion.div>
-      )}
-    </div>
-  )}
-</div>
-      {/* Input section with suggestions */}
-      <div className="border-t border-gray-200 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg">
-        <div className="max-w-3xl mx-auto p-4 md:p-6 space-y-4">
+    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Main chat container */}
+      <div className="flex-1 overflow-hidden relative">
+        <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700">
+          {messages.length === 0 ? (
+            renderWelcomeScreen()
+          ) : (
+            <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-6 pb-32">
+              <MessageList messages={messages} />
+              {isLoading && (
+                <motion.div 
+                  initial={{ opacity: 0 }} 
+                  animate={{ opacity: 1 }} 
+                  className="flex items-center space-x-2 text-gray-500 dark:text-gray-400"
+                >
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                  </div>
+                  <span className="text-sm">Thinking...</span>
+                </motion.div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Fixed input section at bottom */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-t border-gray-200 dark:border-gray-700">
+        <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-4">
           <QuerySuggestions
             suggestions={suggestions}
             predictedQuery={predictedQuery || undefined}
             onSelect={handleSendMessage}
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg"
           />
-            <ChatInput 
-              onSend={handleSendMessage} 
-              onInputChange={handleInputChange} 
-              isLoading={isLoading} 
-              value={""}  // Reset input field after selection
-            />
+          <ChatInput 
+            onSend={handleSendMessage} 
+            onInputChange={handleInputChange} 
+            isLoading={isLoading} 
+            value=""
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg"
+          />
         </div>
       </div>
     </div>
