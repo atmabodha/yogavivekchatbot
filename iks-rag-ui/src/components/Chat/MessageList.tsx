@@ -55,14 +55,14 @@ export default function MessageList({ messages }: MessageListProps) {
 
             {/* Timestamp & Confidence Level */}
             <div className="flex justify-between items-center mt-2 text-xs opacity-70">
-              <span className="text-gray-600 dark:text-gray-400">
+              <span className="text-gray-100 dark:text-gray-400">
                 {new Date(message.timestamp).toLocaleTimeString([], {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
               </span>
               {message.confidence && (
-                <span className="ml-2 text-gray-500 dark:text-gray-400">
+                <span className="ml-2 text-gray-600 dark:text-gray-400">
                   Confidence: {(message.confidence * 100).toFixed(1)}%
                 </span>
               )}

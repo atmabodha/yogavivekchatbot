@@ -170,7 +170,7 @@ export default function Chat() {
   );
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="flex flex-col h-[calc(100vh-4rem)] bg-gray-50 dark:bg-gray-900">
       {/* Main chat container */}
       <div className="flex-1 overflow-hidden relative">
         <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700">
@@ -199,7 +199,7 @@ export default function Chat() {
       </div>
 
       {/* Fixed input section at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-t border-gray-200 dark:border-gray-700">
+      <div className="fixed bottom-0 right-0 lg:left-64 lg:pl-32 left-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-t border-gray-200 dark:border-gray-700">
         <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-4">
           <QuerySuggestions
             suggestions={suggestions}
