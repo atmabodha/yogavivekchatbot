@@ -3,33 +3,43 @@ from dotenv import load_dotenv
 import sys
 sys.path.append('..')
 from app.inference.pipeline import pipeline_rag
+from pydantic import BaseModel
 
 load_dotenv()
-from helper.auto_complete import (
+from api.helper.auto_complete import (
     AutocompleteRequest,
     AutocompleteResponse
 )
-from helper.query_prediction import (
+from api.helper.query_prediction import (
     QueryPredictionRequest,
     QueryPredictionResponse
 )
-from helper.chat_completion import (
+from api.helper.chat_completion import (
     ChatCompletionRequest,
     ChatCompletionResponse,
     CompletionResponse,
     Reference
 )
-from helper.retrieve_references import (
+from api.helper.retrieve_references import (
     RetrieveReferencesRequest,
     RetrieveReferencesResponse,
     ReferenceDetail
 )
-from helper.regenerate_response import (
+from api.helper.regenerate_response import (
     RegenerateRequest,
     RegenerateResponse
 )
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/v1/autocomplete", response_model=AutocompleteResponse)
 async def autocomplete(request: AutocompleteRequest):
@@ -128,12 +138,15 @@ async def regenerate_response(request: RegenerateRequest):
         new_response=dummy_response,
         references=dummy_references
     )
+class QueryRequest(BaseModel):
+    query: str
 
-#API for pipeline
 @app.post("/v1/response")
-async def regenerate_response(query: str):
-    new_response = pipeline_rag(query)  
-    return {'response' : new_response}
+async def generate_response(request: QueryRequest):
+    print(f"Received query: {request.query}")
+    new_response = pipeline_rag(request.query)
+    print(f"Generated response: {new_response}")
+    return {'response': new_response}
 
 @app.get("/status")
 async def status():

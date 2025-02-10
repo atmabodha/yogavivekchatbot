@@ -1,44 +1,69 @@
-import { ChatMessage } from '@/types/chat';
-import ReferenceList from './ReferenceList';
+import { useEffect, useRef } from "react";
+import { ChatMessage } from "@/types/chat";
+import ReferenceList from "./ReferenceList";
+import { motion } from "framer-motion";
 
 interface MessageListProps {
   messages: ChatMessage[];
 }
 
 export default function MessageList({ messages }: MessageListProps) {
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   return (
     <div className="space-y-4 px-2">
-      {messages.map((message) => (
-        <div
+      {messages.map((message, index) => (
+        <motion.div
           key={message.id}
-          className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: index * 0.05 }}
+          className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
         >
           <div
-            className={`p-4 rounded-2xl max-w-[85%] shadow-sm ${
-              message.role === 'user'
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted text-foreground'
+            className={`p-4 rounded-2xl max-w-[85%] shadow-lg transition-all duration-300 ${
+              message.role === "user"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             }`}
           >
             <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+
+            {/* Reference List (if available) */}
             {message.references && message.references.length > 0 && (
-              <div className={`mt-2 border-t ${
-                message.role === 'user' ? 'border-primary-foreground/20' : 'border-border'
-              }`}>
-                <ReferenceList references={message.references} isUserMessage={message.role === 'user'} />
+              <div className={`mt-2 border-t border-gray-300 dark:border-gray-600 pt-2`}>
+                <ReferenceList
+                  references={message.references}
+                  isUserMessage={message.role === "user"}
+                />
               </div>
             )}
+
+            {/* Timestamp & Confidence Level */}
             <div className="flex justify-between items-center mt-2 text-xs opacity-70">
-              <span>{new Date(message.timestamp).toLocaleTimeString()}</span>
+              <span className="text-gray-600 dark:text-gray-400">
+                {new Date(message.timestamp).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </span>
               {message.confidence && (
-                <span className="ml-2">
+                <span className="ml-2 text-gray-500 dark:text-gray-400">
                   Confidence: {(message.confidence * 100).toFixed(1)}%
                 </span>
               )}
             </div>
           </div>
-        </div>
+        </motion.div>
       ))}
+      {/* Empty div to scroll into view */}
+      <div ref={messagesEndRef} />
     </div>
   );
-} 
+}

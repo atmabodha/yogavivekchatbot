@@ -5,25 +5,26 @@ interface ReferenceListProps {
   isUserMessage: boolean;
 }
 
-export default function ReferenceList({ references }: ReferenceListProps) {
+export default function ReferenceList({ references, isUserMessage }: ReferenceListProps) {
   return (
     <div className="mt-2 text-sm">
-      <p className="font-semibold text-gray-700">References:</p>
+      <p className="font-semibold text-muted-foreground">References:</p>
       <ul className="list-disc list-inside space-y-1">
         {references.map((ref, index) => (
-          <li key={index} className="text-gray-600">
+          <li key={index} className="text-muted-foreground">
             <a 
               href={ref.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-blue-600"
+              className="text-primary hover:underline transition-colors duration-200"
+              aria-label={`Reference from ${ref.source}`}
             >
               {ref.source}
-              {ref.text && <span className="text-gray-500"> - {ref.text}</span>}
+              {ref.text && <span className="text-muted-foreground"> - {ref.text}</span>}
             </a>
           </li>
         ))}
       </ul>
     </div>
   );
-} 
+}
