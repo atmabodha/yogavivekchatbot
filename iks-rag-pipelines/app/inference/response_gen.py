@@ -118,9 +118,16 @@ def get_bot_response(context="", question=""):
 {
     "summary_answer": "Provide a neutral and respectful introduction to the topic, including relevant historical, cultural, or philosophical context if applicable.",
     
-    "detailed_answer": "A well-researched and objective response presenting multiple interpretations, ensuring all claims are backed by credible sources or scriptures.",
+    "detailed_answer": "A well-researched and objective response presenting multiple interpretations, ensuring all claims are backed by credible sources or scriptures from the given context",
     
-    "references": "Relevant scriptural reference with chapter and verse number, including the exact English translation of the verse (maximum 2 references)."
+    "references": [
+        {
+            "source": "Short identifier of the scripture (e.g., 'pys' for Patanjali Yoga Sutras, 'sbg' for Shrimad Bhagavad Gita).",
+            "chapter": "Chapter number",
+            "verse": "Verse number",
+            "text": "Extract the verse from the context"
+        }
+    ]
 }
 
 Your goal is to provide responses that are **deeply meaningful yet accessible**, guiding the reader toward wisdom, understanding, and self-reflection.  
@@ -128,7 +135,7 @@ Never hallucinate information; always stay strictly within the given context."""
             },
             {
                 "role": "user",
-                "content": f" {prompt} + keep in mind the instruction I have given you before regarding the answer format I want the response in the dictionary format I have given to you. The output should be structured as: {{'summary_answer': '', 'detailed_answer': '', 'references': 'Chapter Num : , Verse Number , Verse :'}} it must be a key and string pair",
+                "content": f" {prompt} + keep in mind the instruction I have given you before regarding the answer format. I want the response in the dictionary format I have given to you. The output should be structured as: {{'summary_answer': '', 'detailed_answer': '', 'references': []}}",
             },
         ],
         model="deepseek-r1-distill-llama-70b",
@@ -136,5 +143,6 @@ Never hallucinate information; always stay strictly within the given context."""
     )
     
     return remove_think_tokens(chat_completion.choices[0].message.content)
+
 
 
