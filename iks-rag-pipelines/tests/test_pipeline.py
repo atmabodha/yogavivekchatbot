@@ -37,10 +37,15 @@ def pipeline_rag(query, max_retries=3):
                 collection_name = get_best_match(query=query_reform)
                 print(f"Step 5: Best-matching collection found - {time.time() - start_time:.4f} sec")
 
+                if(collection_name == "yoga_collection"):
+                    collection = "Patanjali Yoga Sutras"
+                else:
+                    collection = "Bhagwad Gita"
+
                 context = retrieve_context(query_reform, collection_name)
                 print(f"Step 6: Context retrieved - {time.time() - start_time:.4f} sec")
 
-                answer = get_bot_response(context, query)
+                answer = get_bot_response(context, query,collection)
                 print(f"Step 7: Response generated - {time.time() - start_time:.4f} sec")
 
                 validation = check_valid_answer(q=query, a=answer, c=context)
