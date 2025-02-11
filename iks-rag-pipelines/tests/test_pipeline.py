@@ -5,14 +5,13 @@ from better_profanity import profanity
 from dotenv import load_dotenv
 import sys
 
-sys.path.append("iks-rag-pipelines/app/inference")
-
-from query_filter import *
-from query_reform import rewrite_query_for_rag
-from find_correct_collection import *
-from retrieve_documents import *
-from response_gen import *
-from validation import check_valid_answer
+sys.path.append('.')
+from app.inference.query_filter import *
+from app.inference.query_reform import rewrite_query_for_rag
+from app.inference.find_correct_collection import *
+from app.inference.retrieve_documents import *
+from app.inference.response_gen import *
+from app.inference.validation import check_valid_answer
 
 load_dotenv()
 
@@ -58,5 +57,5 @@ def pipeline_rag(query, max_retries=3):
     return "Query blocked due to invalid or offensive content."
 
 # Test
-print(pipeline_rag("I am confused in life help me with Gita"))
+print(pipeline_rag("how does the gita start"))
 
