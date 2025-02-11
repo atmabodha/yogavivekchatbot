@@ -5,7 +5,6 @@ import re
 
 sys.path.append('..')
 from app.utils.prompts import PromptTemplates
-
 load_dotenv()
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
@@ -106,7 +105,7 @@ def remove_think_tokens(text):
     return re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
 
 
-def get_bot_response(context="", question=""):
+def get_bot_response(context="", question="",collection= ""):
     query_type = classify_query(question)
     prompt = prepare_prompt(question, context, query_type)
     chat_completion = client.chat.completions.create(
@@ -116,13 +115,13 @@ def get_bot_response(context="", question=""):
                 "content": """You are a highly structured and detail-oriented assistant, specializing in providing precise, insightful, and well-formatted responses to spiritual questions. Your responses must strictly adhere to the following format and should not deviate:
 
 {
-    "summary_answer": "Provide a neutral and respectful introduction to the topic, including relevant historical, cultural, or philosophical context if applicable.",
+    "summary_answer": "Provide a neutral and respectful introduction to the topic, including relevant historical, cultural, or philosophical from given context context make sure its written in markdown language so that it looks better",
     
-    "detailed_answer": "A well-researched and objective response presenting multiple interpretations, ensuring all claims are backed by credible sources or scriptures from the given context",
+    "detailed_answer": "A well-researched and objective response presenting multiple interpretations, ensuring all claims are backed by credible sources or scriptures from the given context make sure its written in markdown language so that it looks better",
     
-    "references": [
+   "references": [
         {
-            "source": "Short identifier of the scripture (e.g., 'pys' for Patanjali Yoga Sutras, 'sbg' for Shrimad Bhagavad Gita).",
+            "source": ,
             "chapter": "Chapter number",
             "verse": "Verse number",
             "text": "Extract the verse from the context"
@@ -135,7 +134,7 @@ Never hallucinate information; always stay strictly within the given context."""
             },
             {
                 "role": "user",
-                "content": f" {prompt} + keep in mind the instruction I have given you before regarding the answer format. I want the response in the dictionary format I have given to you. The output should be structured as: {{'summary_answer': '', 'detailed_answer': '', 'references': []}}",
+                "content": f" {prompt} + keep in mind the instruction I have given you before regarding the answer format. I want the response in the dictionary format I have given to you. The output should be structured as: {{'summary_answer': '', 'detailed_answer': '', 'references': []}} write summary answer and detailed answer in markdown format make sure it is written in markdown language using bold and everything to make it look better , source : {collection} only st5rictly give json output nothing else give maximum 2 references",
             },
         ],
         model="deepseek-r1-distill-llama-70b",

@@ -23,6 +23,7 @@ def check_valid_answer(q="", a="", c=" "):
                     "4. Free from hallucinations or fabricated details. "
                     "5. Not misleading or speculative in any way. "
                     "6. Return 0 if the output is not in dictionary format like this '{{'summary_answer': '', 'detailed_answer': '', 'references': []}} it must be a key and string pair and check for english Verse in references if it is not there then return 0 "
+                    "7. if answer summary or detailed answer is not in markdown format inside the dictionary return 0 and if there is anything other than json output then return 0"
                     "If the answer violates any of these rules—such as introducing external knowledge, misrepresenting facts, "
                     "or deviating from the provided context—output '0'. "
                     "Your response must only be '1' or '0', with no explanation or additional text."

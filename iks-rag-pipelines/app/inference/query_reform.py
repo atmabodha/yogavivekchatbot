@@ -20,11 +20,12 @@ def rewrite_query_for_rag(query=""):
                     "For example, if the query is about 'the concept of dharma in the Bhagavad Gita,' the output could be: "
                     "<What is the concept of dharma in the Bhagavad Gita?><dharma, Bhagavad Gita, concept, philosophy>. "
                     "Ensure the rewritten query is concise and the keywords are highly relevant."
+                    "the key words must be related to the query and nothing else"
                 ),
             },
             {
                 "role": "user",
-                "content": f"Rewrite the following query for better retrieval: {query}",
+                "content": f"Rewrite the following query for better retrieval: {query} i only want the reforved query output in the format i have given to you i want no output else in it at all only the format i have given not even here is the response",
             },
         ],
         model="llama3-8b-8192",

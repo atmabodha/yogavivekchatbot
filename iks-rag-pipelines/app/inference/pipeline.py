@@ -18,6 +18,7 @@ client = Groq(api_key=os.getenv('GROQ_API_KEY'))
 def pipeline_rag(query, max_retries=3):
     start_time = time.time()
     query = query.lower()
+    collection = " "
     print(f"Step 1: Query converted to lowercase - {time.time() - start_time:.4f} sec")
 
     if not check_offensive_language(query):
@@ -31,13 +32,21 @@ def pipeline_rag(query, max_retries=3):
                 query_reform = rewrite_query_for_rag(query).lower()
                 print(f"Step 4: Query reformulated - {time.time() - start_time:.4f} sec (Attempt {retries+1})")
 
+                print(query_reform)
+
                 collection_name = get_best_match(query=query_reform)
+                print(collection_name)
                 print(f"Step 5: Best-matching collection found - {time.time() - start_time:.4f} sec")
 
+                if(collection_name == "yoga_collection"):
+                    collection = "Patanjali Yoga Sutras"
+                else:
+                    collection = "Bhagwad Gita"
+                print(collection)
                 context = retrieve_context(query_reform, collection_name)
                 print(f"Step 6: Context retrieved - {time.time() - start_time:.4f} sec")
 
-                answer = get_bot_response(context, query)
+                answer = get_bot_response(context, query, collection)
                 print(f"Step 7: Response generated - {time.time() - start_time:.4f} sec")
 
                 validation = check_valid_answer(q=query, a=answer, c=context)
