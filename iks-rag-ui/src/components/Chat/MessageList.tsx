@@ -3,6 +3,7 @@ import { ChatMessage } from "@/types/chat";
 import ReferenceList from "./ReferenceList";
 import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
+import ChatResponse from "./ChatResponse";
 
 interface MessageListProps {
   messages: ChatMessage[];
@@ -17,6 +18,29 @@ export default function MessageList({ messages }: MessageListProps) {
     }
   }, [messages]);
 
+  const parseResponse = (content: string) => {
+    try {
+      // Remove markdown code block markers and parse JSON
+      const jsonStr = content.replace(/```json\n|\n```/g, '');
+      const parsed = JSON.parse(jsonStr);
+      return {
+        summary: parsed.summary_answer?.replace(/\*\*/g, ''),
+        explanation: parsed.detailed_answer?.replace(/\*\*/g, ''),
+        references: parsed.references?.map((ref: any) => ({
+          verse: `${ref.source} ${ref.chapter}:${ref.verse}`,
+          text: ref.text
+        })) || []
+      };
+    } catch (error) {
+      console.error('Error parsing response:', error);
+      return {
+        summary: content,
+        explanation: 'Either your question is not clear or something went wrong, please rephrase your question and try again... if the problem persists, please contact the developer.',
+        references: []
+      };
+    }
+  };
+
   return (
     <div className="space-y-6">
       {messages.map((message) => (
@@ -26,48 +50,17 @@ export default function MessageList({ messages }: MessageListProps) {
           animate={{ opacity: 1, y: 0 }}
           className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
         >
-          <div
-            className={`max-w-[85%] md:max-w-[75%] rounded-2xl px-4 py-3 ${
-              message.role === "user"
-                ? "bg-indigo-600 text-white"
-                : "bg-white dark:bg-gray-800 shadow-md"
-            }`}
-          >
-            <ReactMarkdown
-              className={`prose ${
-                message.role === "user"
-                  ? "prose-invert"
-                  : "prose-gray dark:prose-invert"
-              } max-w-none prose-p:leading-relaxed prose-pre:bg-gray-100 dark:prose-pre:bg-gray-900 prose-pre:p-2 prose-pre:rounded`}
-            >
-              {message.content}
-            </ReactMarkdown>
-
-            {/* Reference List (if available) */}
-            {message.references && message.references.length > 0 && (
-              <div className={`mt-2 border-t border-gray-300 dark:border-gray-600 pt-2`}>
-                <ReferenceList
-                  references={message.references}
-                  isUserMessage={message.role === "user"}
-                />
-              </div>
-            )}
-
-            {/* Timestamp & Confidence Level */}
-            <div className="flex justify-between items-center mt-2 text-xs opacity-70">
-              <span className="text-gray-100 dark:text-gray-400">
-                {new Date(message.timestamp).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </span>
-              {message.confidence && (
-                <span className="ml-2 text-gray-600 dark:text-gray-400">
-                  Confidence: {(message.confidence * 100).toFixed(1)}%
-                </span>
-              )}
+          {message.role === "user" ? (
+            <div className="max-w-[85%] md:max-w-[75%] rounded-2xl px-4 py-3 bg-indigo-600 text-white">
+              <p className="prose prose-invert max-w-none prose-p:leading-relaxed">
+                {message.content}
+              </p>
             </div>
-          </div>
+          ) : (
+            <div className="max-w-[85%] md:max-w-[75%]">
+              <ChatResponse {...parseResponse(message.content)} />
+            </div>
+          )}
         </motion.div>
       ))}
       {/* Empty div to scroll into view */}
