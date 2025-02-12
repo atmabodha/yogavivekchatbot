@@ -7,6 +7,7 @@ import ChatInput from "./ChatInput";
 import QuerySuggestions from "./QuerySuggestions";
 import { apiService } from "@/lib/apiService";
 import { motion } from "framer-motion";
+import ChatResponse from './ChatResponse';
 
 // Predefined categories for question suggestions
 const suggestionCategories = [
