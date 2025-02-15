@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import sys
 sys.path.append('..')
 from app.inference.pipeline import pipeline_rag
+from app.inference.recommendation import get_recommended_questions
 from pydantic import BaseModel
 
 load_dotenv()
@@ -147,6 +148,16 @@ async def generate_response(request: QueryRequest):
     new_response = pipeline_rag(request.query)
     print(f"Generated response: {new_response}")
     return {'response': new_response}
+
+class RecommendationRequest(BaseModel):
+    query: str
+
+@app.post("/v1/recommendation")
+async def generate_recommendation(request: RecommendationRequest):
+    print(f"Received query: {request.query}")
+    recommendation = get_recommended_questions(request.query)
+    print(f"Generated response: {recommendation}")
+    return recommendation
 
 @app.get("/status")
 async def status():

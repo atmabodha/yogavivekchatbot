@@ -134,7 +134,7 @@ Never hallucinate information; always stay strictly within the given context."""
             },
             {
                 "role": "user",
-                "content": f" {prompt} + keep in mind the instruction I have given you before regarding the answer format. I want the response in the dictionary format I have given to you. The output should be structured as: {{'summary_answer': '', 'detailed_answer': '', 'references': []}} write summary answer and detailed answer in markdown format make sure it is written in markdown language using bold and everything to make it look better , source : {collection} - only mention this source in the response only stirictly give json output nothing else give maximum 2 references",
+                "content": f" {prompt} + keep in mind the instruction I have given you before regarding the answer format. I want the response in the dictionary format I have given to you. The output should be structured as: {{'summary_answer': '', 'detailed_answer': '', 'references': []}} write summary answer and detailed answer in markdown format make sure it is written in markdown language using bold and everything to make it look better , source : {collection} - only mention this source in the response only stirictly give json output that can be used give proper json output nothing else dont use '/n' in output give maximum 2 references",
             },
         ],
         model="deepseek-r1-distill-llama-70b",
