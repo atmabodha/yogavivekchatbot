@@ -29,14 +29,13 @@ export default function MessageList({ messages }: MessageListProps) {
         references: parsed.references?.map((ref: any) => ({
           verse: `${ref.source} ${ref.chapter}:${ref.verse}`,
           text: ref.text
-        })) || []
+        })) || [],
+        error: false
       };
     } catch (error) {
       console.error('Error parsing response:', error);
       return {
-        summary: content,
-        explanation: 'Either your question is not clear or something went wrong, please rephrase your question and try again... if the problem persists, please contact the developer.',
-        references: []
+        error: true
       };
     }
   };
