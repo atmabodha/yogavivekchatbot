@@ -18,14 +18,25 @@ def get_best_match(query: str, collection1: str = "yoga_collection", collection2
     query_embedding = model.encode(query).tolist()
     answers1 = qdrant_client.query_points(collection_name=collection1, query=query_embedding, limit=limit)
     answers2 = qdrant_client.query_points(collection_name=collection2, query=query_embedding, limit=limit)
+
+    print(answers1)
     
     score1 = answers1.points[0].score if answers1.points else 0
     score2 = answers2.points[0].score if answers2.points else 0
 
-    if score1 >= score2:
-        best_collection = collection1
+    print(score1)
+    print(score2)
+
+    if(score1 > 0.5 or score2 > 0.5):
+        if score1 >= score2:
+            best_collection = collection1
+        else:
+            best_collection = collection2
     else:
-        best_collection = collection2
+        if(query.lower().count("gita") > query.lower().count("yoga")):
+            best_collection = collection2
+        else:
+            best_collection = collection1
 
     return best_collection
 

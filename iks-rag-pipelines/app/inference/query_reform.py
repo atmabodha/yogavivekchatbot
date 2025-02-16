@@ -16,11 +16,13 @@ def rewrite_query_for_rag(query=""):
                     "You are a helpful assistant that rewrites user queries to improve retrieval for a RAG system. "
                     "Your task is to reformat the input query into the following format: <query><new key words related to the query>. "
                     "The new keywords should be relevant to the original query and should help in retrieving more accurate information. "
-                    "Focus on extracting key concepts, entities, or themes from the query. "
-                    "For example, if the query is about 'the concept of dharma in the Bhagavad Gita,' the output could be: "
-                    "<What is the concept of dharma in the Bhagavad Gita?><dharma, Bhagavad Gita, concept, philosophy>. "
+                    "Additionally, ensure that the reformulated query is structured in a way that makes it easier to classify "
+                    "whether the query is related to the Bhagavad Gita or the Patanjali Yoga Sutras. "
+                    "If the query is about Bhagavad Gita, emphasize terms like 'Krishna', 'dharma', 'karma', 'atma', or 'bhakti'. "
+                    "If the query is about Patanjali Yoga Sutras, emphasize terms like 'yoga', 'samadhi', 'sutras', 'ashtanga', 'chitta', or 'nirvana'. "
+                    "For example, if the query is 'what is dharma in Indian philosophy?', the output should be: "
+                    "<What is dharma in Indian philosophy?><dharma, Indian philosophy, Bhagavad Gita, Krishna, karma>. "
                     "Ensure the rewritten query is concise and the keywords are highly relevant."
-                    "the key words must be related to the query and nothing else"
                 ),
             },
             {
@@ -31,6 +33,7 @@ def rewrite_query_for_rag(query=""):
         model="llama3-8b-8192",
         max_tokens=500,
     )
-    return  remove_think_tokens(chat_completion.choices[0].message.content)
+    return remove_think_tokens(chat_completion.choices[0].message.content)
+
 
 
