@@ -27,7 +27,7 @@ def get_best_match(query: str, collection1: str = "yoga_collection", collection2
     print(score1)
     print(score2)
 
-    if(score1 > 0.5 or score2 > 0.5):
+    if(score1 > 0.5 or score2 > 0.5 or (query.lower().count("gita") == 0 and query.lower().count("yoga")==0)):
         if score1 >= score2:
             best_collection = collection1
         else:
