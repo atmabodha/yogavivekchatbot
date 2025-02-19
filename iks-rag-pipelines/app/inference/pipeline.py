@@ -34,7 +34,7 @@ def extract_json_dict(s):
 
 def get_json_response1():
     """Returns a default JSON response when query validation fails."""
-    data = {
+    data ={
         "summary_answer": "We can only answer questions related to **Bhagavad Gita** or **Patanjali Yoga Sutras**.",
         "detailed_answer": (
             "You can try asking questions like:\n\n"
@@ -53,7 +53,7 @@ def get_json_response1():
             }
         ]
     }
-    return json.dumps(data, indent=4)
+    return data
 
 def pipeline_rag(query, max_retries=3):
     """Pipeline for retrieving answers using RAG."""
@@ -69,7 +69,7 @@ def pipeline_rag(query, max_retries=3):
 
     # Step 3: Query Validity Check
     is_valid = check_valid(query)
-    if not is_valid:
+    if int(is_valid) == 0:
         print(f"Step 3: Query validity check failed - {time.time() - start_time:.4f} sec")
         return get_json_response1()
     print(f"Step 3: Query validity check passed - {time.time() - start_time:.4f} sec")
