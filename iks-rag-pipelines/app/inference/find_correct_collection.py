@@ -18,8 +18,6 @@ def get_best_match(query: str, collection1: str = "yoga_collection", collection2
     query_embedding = model.encode(query).tolist()
     answers1 = qdrant_client.query_points(collection_name=collection1, query=query_embedding, limit=limit)
     answers2 = qdrant_client.query_points(collection_name=collection2, query=query_embedding, limit=limit)
-
-    print(answers1)
     
     score1 = answers1.points[0].score if answers1.points else 0
     score2 = answers2.points[0].score if answers2.points else 0

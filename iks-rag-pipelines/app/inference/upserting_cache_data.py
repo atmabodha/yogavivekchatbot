@@ -77,4 +77,4 @@ def load_data(csv_path, collection_name, start_idx=0, end_idx=None, max_retries=
         print(f"Critical error: {e}")
 
 # Example usage
-load_data("/Users/arunkaul/Desktop/yogavivekchatbot/iks-rag-pipelines/app/dataset/c_d.csv", "QnA_collection", start_idx=0, end_idx=1675)
+load_data("/Users/arunkaul/Desktop/yogavivekchatbot/iks-rag-pipelines/app/dataset/c_d.csv", "QnA_collection", start_idx=288, end_idx=1675)

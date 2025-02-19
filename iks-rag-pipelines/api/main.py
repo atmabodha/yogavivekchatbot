@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import sys
 sys.path.append('..')
 from app.inference.pipeline import pipeline_rag
+from app.inference.cache_pipeline import pipeline_rag_cache
 from app.inference.recommendation import get_recommended_questions
 from pydantic import BaseModel
 
@@ -146,6 +147,17 @@ class QueryRequest(BaseModel):
 async def generate_response(request: QueryRequest):
     print(f"Received query: {request.query}")
     new_response = pipeline_rag(request.query)
+    print(f"Generated response: {new_response}")
+    return {'response': new_response}
+
+
+class CacheRequest(BaseModel):
+    query: str
+
+@app.post("/v1/response-cache")
+async def generate_response_cache(request: CacheRequest):
+    print(f"Received query: {request.query}")
+    new_response = pipeline_rag_cache(request.query)
     print(f"Generated response: {new_response}")
     return {'response': new_response}
 
