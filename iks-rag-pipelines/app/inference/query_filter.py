@@ -31,6 +31,7 @@ def check_valid(context=""):
                     "   - Questions on **how to apply Bhagavad Gita or Yoga Sutra principles in daily life**.\n"
                     "   - Inquiries about **meditation, mind control, detachment, or self-discipline** as taught in these scriptures.\n"
                     "   - Comparisons between **Bhagavad Gita and other spiritual or philosophical traditions**, as long as the focus remains on its teachings.\n\n"
+                    "   - words like gita , karma , bhagwad gita or yoga sutra return 1"
 
                     "2️⃣ **Output '0' (Irrelevant)** if the sentence is unrelated, offensive, or inappropriate. This includes:\n"
                     "   - Any **foul language, offensive words, or disrespectful content**.\n"
