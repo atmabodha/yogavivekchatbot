@@ -31,7 +31,7 @@ def get_recommended_questions(query):
     return {"Questions": random_questions}
 
 
-query = "tell me about yoga chita"
+query = "tell me about karma in gita"
 print(get_recommended_questions(query))
 
 
