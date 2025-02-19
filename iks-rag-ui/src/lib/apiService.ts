@@ -3,8 +3,6 @@
 import { ChatMessage } from "@/types/chat";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-const QDRANT_API_KEY = "GhZNqwJ72rrxpkCGWwYl4QuIgusSes0Duq2ncPEnjp6TnAUQzsug6w";
-const GROQ_API_KEY = "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";
 
 interface BaseApiResponse {
   error?: string;
@@ -29,8 +27,6 @@ async function fetchWithAuth<T>(endpoint: string, body: object): Promise<T> {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Qdrant-Api-Key": QDRANT_API_KEY,
-        "X-Groq-Api-Key": GROQ_API_KEY,
       },
       body: JSON.stringify(body),
     });
@@ -51,7 +47,7 @@ async function fetchWithAuth<T>(endpoint: string, body: object): Promise<T> {
 export const apiService = {
   async getChatResponse(query: string): Promise<ChatMessage> {
     try {
-      const data = await fetchWithAuth<PipelineResponse>("/v1/response", { query });
+      const data = await fetchWithAuth<PipelineResponse>("/v1/response-cache", { query });
       
       if (!data.response) {
         throw new Error("No response received from the server");
