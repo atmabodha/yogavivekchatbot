@@ -18,11 +18,8 @@ export default function MessageList({ messages }: MessageListProps) {
     }
   }, [messages]);
 
-  const parseResponse = (content: string) => {
+  const parseResponse = (parsed: any) => {
     try {
-      // Remove markdown code block markers and parse JSON
-      const jsonStr = content.replace(/```json\n|\n```/g, '');
-      const parsed = JSON.parse(jsonStr);
       return {
         summary: parsed.summary_answer?.replace(/\*\*/g, ''),
         explanation: parsed.detailed_answer?.replace(/\*\*/g, ''),
