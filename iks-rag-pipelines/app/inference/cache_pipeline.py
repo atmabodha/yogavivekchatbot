@@ -12,7 +12,6 @@ from app.inference.query_filter import *
 load_dotenv()
 client = Groq(api_key=os.getenv('GROQ_API_KEY'))
 
-
 def extract_json_dict(s):
     """Extracts JSON dictionary from a string."""
     start = s.find('{')
