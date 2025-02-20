@@ -43,7 +43,7 @@ def retrieve_context_cache(query, collection_name = "QnA_collection"):
     points = response.points
     score1 = points[0].score
     translations = [point.payload['answer'] for point in points]
-    if(score1 > 0.8):
+    if(score1 > 0.6):
         return translations[0]
     else:
         return mock_response()
