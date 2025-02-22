@@ -5,6 +5,7 @@ sys.path.append('..')
 from app.inference.pipeline import pipeline_rag
 from app.inference.recommendation import get_recommended_questions
 from pydantic import BaseModel
+from typing import List
 
 load_dotenv()
 from api.helper.auto_complete import (
@@ -42,20 +43,30 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class AutocompleteRequest(BaseModel):
+    text: str
+
+class AutocompleteResponse(BaseModel):
+    suggestions: List[str]
+
 @app.post("/v1/autocomplete", response_model=AutocompleteResponse)
 async def autocomplete(request: AutocompleteRequest):
     """
     Endpoint to provide query autocompletion suggestions.
     """
-    # This is a placeholder implementation
+    print(f"Received query: {request.text}")
+    suggestions = get_recommended_questions(request.text)
+    print(f"Generated response: {suggestions}")
     
-    dummy_suggestions = [
-        f"{request.partial_query} life?",
-        f"{request.partial_query} yoga?",
-        f"{request.partial_query} dharma?"
-    ]
+    # Make sure we're returning a list of strings
+    if isinstance(suggestions, dict) and 'suggestions' in suggestions:
+        suggestions_list = suggestions['suggestions']
+    elif isinstance(suggestions, list):
+        suggestions_list = suggestions
+    else:
+        suggestions_list = []
     
-    return AutocompleteResponse(suggestions=dummy_suggestions)
+    return AutocompleteResponse(suggestions=suggestions_list)
 
 @app.post("/v1/predict-query", response_model=QueryPredictionResponse)
 async def predict_query(request: QueryPredictionRequest):
@@ -64,10 +75,13 @@ async def predict_query(request: QueryPredictionRequest):
     """
     # This is a placeholder implementation
     
-    predicted = f"{request.query} Bhagavad Gita?"
+    # predicted = f"{request.query} Bhagavad Gita?"
+
+    predicted = get_recommended_questions(request.query)
+    print(f"Generated response: {predicted}")
     
     return QueryPredictionResponse(
-        predicted_query=predicted,
+        predicted_query=predicted['suggestions'][0],
         confidence=0.92
     )
 

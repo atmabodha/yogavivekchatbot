@@ -67,6 +67,7 @@ export const apiService = {
       };
     } catch (error) {
       console.error("Error getting chat response:", error);
+
       // Throw the error to let the component handle it
       throw new Error(error instanceof Error ? error.message : "Failed to get chat response");
     }
@@ -74,9 +75,10 @@ export const apiService = {
 
   async getSuggestions(partialQuery: string): Promise<string[]> {
     try {
-      const data = await fetchWithAuth<AutocompleteResponse>("/v1/autocomplete", {
-        partial_query: partialQuery,
+      const data = await fetchWithAuth<AutocompleteResponse>("/v1/recommendation", {
+        query: partialQuery,
       });
+      console.log(data.suggestions);
       return data.suggestions || [];
     } catch (error) {
       console.error("Error getting suggestions:", error);

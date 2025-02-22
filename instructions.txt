@@ -1,0 +1,17 @@
+
+uvicorn api.main:app --reload
+
+
+# virtual environment
+python3 -m venv .venv 
+
+#Activate virtual environment
+source .venv/bin/activate
+
+# Deactivate virtual environment
+
+deactivate
+
+# or
+
+source deactivate

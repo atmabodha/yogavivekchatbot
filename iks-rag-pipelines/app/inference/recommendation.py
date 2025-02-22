@@ -32,7 +32,7 @@ def get_recommended_questions(query):
     execution_time = time.time() - start_time
     print(f"Execution Time: {execution_time:.4f} seconds")
     
-    return {"Questions": random_questions}
+    return {"suggestions": random_questions}
 
 
 
