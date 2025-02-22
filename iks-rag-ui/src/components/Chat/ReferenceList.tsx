@@ -5,7 +5,7 @@ interface ReferenceListProps {
   isUserMessage: boolean;
 }
 
-export default function ReferenceList({ references, isUserMessage }: ReferenceListProps) {
+export default function ReferenceList({ references }: ReferenceListProps) {
   return (
     <div className="mt-2 text-sm">
       <p className="font-semibold text-muted-foreground">References:</p>

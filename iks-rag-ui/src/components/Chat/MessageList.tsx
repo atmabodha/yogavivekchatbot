@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import { ChatMessage } from "@/types/chat";
-import ReferenceList from "./ReferenceList";
+
 import { motion } from "framer-motion";
-import ReactMarkdown from "react-markdown";
+
 import ChatResponse from "./ChatResponse";
 
 interface MessageListProps {
