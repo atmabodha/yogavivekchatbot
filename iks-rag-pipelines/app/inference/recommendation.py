@@ -30,7 +30,7 @@ def get_recommended_questions(query):
     random_questions = random.sample(filtered_questions, min(5, len(filtered_questions)))
     
     execution_time = time.time() - start_time
-    print(f"Execution Time: {execution_time:.4f} seconds")
+    print(f"Execution Time: {execution_time:.4f} seconds {cluster_label}")
     
     return {"suggestions": random_questions}
 
