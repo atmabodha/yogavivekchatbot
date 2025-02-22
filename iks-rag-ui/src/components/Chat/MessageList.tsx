@@ -21,8 +21,8 @@ export default function MessageList({ messages }: MessageListProps) {
   const parseResponse = (parsed: any) => {
     try {
       return {
-        summary: parsed.summary_answer?.replace(/\*\*/g, ''),
-        explanation: parsed.detailed_answer?.replace(/\*\*/g, ''),
+        summary: parsed.summary_answer,
+        explanation: parsed.detailed_answer,
         references: parsed.references?.map((ref: any) => ({
           verse: `${ref.source} ${ref.chapter}:${ref.verse}`,
           text: ref.text

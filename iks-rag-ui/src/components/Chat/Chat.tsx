@@ -134,7 +134,7 @@ export default function Chat() {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full max-w-7xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6 w-full max-w-7xl">
         {suggestionCategories.map((category, idx) => (
           <motion.div
             key={category.title}
@@ -180,7 +180,7 @@ export default function Chat() {
           {messages.length === 0 ? (
             renderWelcomeScreen()
           ) : (
-            <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-6 pb-32">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 pb-32">
               <MessageList messages={messages} />
               {isLoading && (
                 <motion.div 
@@ -202,14 +202,14 @@ export default function Chat() {
       </div>
 
       {/* Fixed input section at bottom */}
-      <div className="fixed bottom-0 right-0 lg:left-64 lg:pl-32 left-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-t border-gray-200 dark:border-gray-700">
-        <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-4">
+      <div className="fixed bottom-0 right-0 left-0 sm:left-80 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border-t border-gray-200 dark:border-gray-700">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 space-y-4">
           <QuerySuggestions
             suggestions={suggestions}
             clearInput={() => setSuggestions([])}
             predictedQuery={predictedQuery || undefined}
             onSelect={handleSendMessage}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg"
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg"
           />
           <ChatInput 
             onSend={handleSendMessage} 
@@ -217,7 +217,7 @@ export default function Chat() {
             onInputChange={handleInputChange} 
             isLoading={isLoading} 
             value=""
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg"
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg"
           />
         </div>
       </div>
