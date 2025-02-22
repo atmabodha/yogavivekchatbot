@@ -134,7 +134,7 @@ export default function Chat() {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 w-full max-w-7xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full max-w-7xl">
         {suggestionCategories.map((category, idx) => (
           <motion.div
             key={category.title}
@@ -161,7 +161,7 @@ export default function Chat() {
                     hover:text-gray-900 dark:hover:text-white group flex items-center justify-between
                     hover:shadow-md"
                 >
-                  <span className="line-clamp-2">{question}</span>
+                  <span className="line-clamp-1 p-0">{question}</span>
                   <span className="opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1">→</span>
                 </button>
               ))}
