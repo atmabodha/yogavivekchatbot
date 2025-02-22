@@ -33,7 +33,7 @@ export default function QuerySuggestions({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className={`space-y-4 ${className}`}
+      className={`space-y-4 ${className}`}  
     >
       {/* Predicted Query Suggestion */}
       {predictedQuery && (

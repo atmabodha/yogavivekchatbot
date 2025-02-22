@@ -134,33 +134,35 @@ export default function Chat() {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full max-w-5xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 w-full max-w-7xl">
         {suggestionCategories.map((category, idx) => (
           <motion.div
             key={category.title}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
-            className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300
-              border border-gray-100 dark:border-gray-700 backdrop-blur-lg backdrop-filter"
+            className="bg-white/90 dark:bg-gray-800/90 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300
+              border border-gray-100 dark:border-gray-700 backdrop-blur-lg backdrop-filter
+              hover:scale-105 hover:bg-white dark:hover:bg-gray-800"
           >
             <div className="flex items-center gap-4 mb-4">
-              <span className="text-3xl">{category.icon}</span>
-              <h4 className="text-lg font-medium text-gray-800 dark:text-gray-200">
+              <span className="text-3xl transform transition-transform group-hover:scale-110">{category.icon}</span>
+              <h4 className="text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-200 dark:to-gray-400 bg-clip-text text-transparent">
                 {category.title}
               </h4>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               {category.questions.map((question) => (
                 <button
                   key={question}
                   onClick={() => handleSendMessage(question)}
-                  className="w-full text-left px-4 py-2.5 text-sm text-gray-600 dark:text-gray-400 
+                  className="w-full text-left px-4 py-3 text-sm text-gray-600 dark:text-gray-400 
                     hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-xl transition-all duration-200
-                    hover:text-gray-900 dark:hover:text-white group flex items-center justify-between"
+                    hover:text-gray-900 dark:hover:text-white group flex items-center justify-between
+                    hover:shadow-md"
                 >
-                  <span>{question}</span>
-                  <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                  <span className="line-clamp-2">{question}</span>
+                  <span className="opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1">→</span>
                 </button>
               ))}
             </div>
