@@ -15,3 +15,9 @@ deactivate
 # or
 
 source deactivate
+
+
+# run ui
+npm run dev
+
+

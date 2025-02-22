@@ -41,9 +41,9 @@ const ChatResponse: FC<ChatResponseProps> = ({ summary, explanation, references,
                 <div className="border-b border-gray-100 dark:border-gray-700">
                     <div className="px-6 py-4 flex items-center space-x-3">
                         <div className="flex-shrink-0">
-                            {/* <div className="h-10 w-10 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center"> */}
+                            <div className="h-10 w-10 bg-indigo-100 dark:bg-indigo-900/50 rounded-full flex items-center justify-center">
                                 <span className="text-xl">🤖</span>
-                            {/* </div> */}
+                            </div>
                         </div>
                         <div>
                             <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Assistant</h2>
@@ -58,9 +58,9 @@ const ChatResponse: FC<ChatResponseProps> = ({ summary, explanation, references,
                     {summary && (
                         <div className="animate-fade-in">
                             <div className="flex items-center space-x-2 mb-4">
-                                {/* <div className="h-8 w-8 bg-amber-100 dark:bg-amber-900/50 rounded-lg flex items-center justify-center"> */}
+                                <div className="h-8 w-8 bg-amber-100 dark:bg-amber-900/50 rounded-lg flex items-center justify-center">
                                     <span className="text-lg">⭐</span>
-                                {/* </div> */}
+                                </div>
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Summary</h3>
                             </div>
                             <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-5 border border-amber-100 dark:border-amber-800">
@@ -77,13 +77,19 @@ const ChatResponse: FC<ChatResponseProps> = ({ summary, explanation, references,
                     {explanation && (
                         <div className="animate-fade-in">
                             <div className="flex items-center space-x-2 mb-4">
-                                {/* <div className="h-8 w-8 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center"> */}
+                                <div className="h-8 w-8 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
                                     <span className="text-lg">📚</span>
-                                {/* </div> */}
+                                </div>
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Detailed Explanation</h3>
                             </div>
                             <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-5 border border-blue-100 dark:border-blue-800">
-                                <div className="prose dark:prose-invert prose-blue prose-sm sm:prose-base max-w-none">
+                                <div className="prose dark:prose-invert prose-blue prose-sm sm:prose-base max-w-none
+                                            prose-headings:text-blue-900 dark:prose-headings:text-blue-100
+                                            prose-p:text-gray-700 dark:prose-p:text-gray-300
+                                            prose-strong:text-blue-700 dark:prose-strong:text-blue-300
+                                            prose-ul:list-disc prose-ul:pl-5
+                                            prose-li:text-gray-700 dark:prose-li:text-gray-300
+                                            prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline">
                                     <ReactMarkdown>
                                         {explanation}
                                     </ReactMarkdown>
@@ -96,9 +102,9 @@ const ChatResponse: FC<ChatResponseProps> = ({ summary, explanation, references,
                     {references && references.length > 0 && (
                         <div className="animate-fade-in">
                             <div className="flex items-center space-x-2 mb-4">
-                                {/* <div className="h-8 w-8 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center"> */}
+                                <div className="h-8 w-8 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
                                     <span className="text-lg">💬</span>
-                                {/* </div> */}
+                                </div>
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">References</h3>
                             </div>
                             <div className="space-y-4">

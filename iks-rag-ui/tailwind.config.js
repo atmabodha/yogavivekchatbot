@@ -10,6 +10,8 @@ module.exports = {
     extend: {},
   },
   plugins: [
+    '@tailwindcss/typography',
+
 
   ],
 }
