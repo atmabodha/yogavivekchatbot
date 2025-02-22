@@ -8,12 +8,14 @@ interface ChatInputProps {
   onSend: (message: string) => void;
   onInputChange: (input: string) => void;
   isLoading: boolean;
-  value: string; // Value from parent when selecting a suggested query
+  value: string;
   className?: string;
+  clearInput: () => void;
 }
 
-export default function ChatInput({ onSend, onInputChange, isLoading, value, className }: ChatInputProps) {
+export default function ChatInput({ onSend, onInputChange, isLoading, value, className, clearInput }: ChatInputProps) {
   const [message, setMessage] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const debouncedInputChange = useRef(
     debounce((val: string) => {
@@ -21,9 +23,13 @@ export default function ChatInput({ onSend, onInputChange, isLoading, value, cla
     }, 300)
   ).current;
 
-  // 🔹 Force state update by resetting the input when a suggestion is selected
   useEffect(() => {
-    setMessage(value || ""); // Ensure empty string if no value
+    if (value) {
+      setMessage(value);
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+      }
+    }
   }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -36,21 +42,25 @@ export default function ChatInput({ onSend, onInputChange, isLoading, value, cla
     e.preventDefault();
     if (message.trim() && !isLoading) {
       onSend(message);
-      setMessage(""); // ✅ Ensure input is cleared after sending
+      setMessage("");
+      debouncedInputChange("");
+      clearInput();
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className={`flex gap-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-2 ${className}`}>
+    <form onSubmit={handleSubmit} className={`flex gap-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl shadow-lg p-3 ${className}`}>
       <textarea
+        ref={textareaRef}
         value={message}
         onChange={handleChange}
-        placeholder="Type your message..."
+        placeholder="Ask about ancient wisdom..."
         disabled={isLoading}
         rows={1}
-        className="flex-1 p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 
-          resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-shadow
-          text-gray-900 dark:text-gray-100"
+        className="flex-1 p-4 rounded-xl border border-gray-200 dark:border-gray-700 
+                   bg-white dark:bg-gray-800 resize-none focus:outline-none 
+                   focus:ring-2 focus:ring-indigo-500/50 transition-all duration-200
+                   text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
         onKeyDown={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
@@ -61,8 +71,9 @@ export default function ChatInput({ onSend, onInputChange, isLoading, value, cla
       <button
         type="submit"
         disabled={isLoading || !message.trim()}
-        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl 
-          disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl 
+                   disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200
+                   font-medium shadow-md hover:shadow-lg active:scale-95"
       >
         {isLoading ? (
           <motion.div 
@@ -73,7 +84,7 @@ export default function ChatInput({ onSend, onInputChange, isLoading, value, cla
         ) : (
           "Send"
         )}
-        </button>
+      </button>
     </form>
   );
 }
