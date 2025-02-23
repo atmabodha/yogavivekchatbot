@@ -10,18 +10,18 @@ model = SentenceTransformer("sentence-transformers/multi-qa-distilbert-cos-v1")
 
 def mock_response():
     data = {
-        "summary_answer": "Thank you for your question! We will get back to you soon with the answer.",
+        "summary_answer": "**Thank you for your question!** We will get back to you soon with the answer.",
         "detailed_answer": (
-            "In the meantime, you can explore related topics such as:\n\n"
-            "- The significance of karma in the Bhagavad Gita\n"
-            "- The four paths of yoga described in the Gita\n"
-            "- The first sutra of Patanjali Yoga Sutras and its meaning\n"
-            "- Patanjali's concept of 'Chitta Vritti Nirodha'\n\n"
-            "Stay tuned—we'll provide your answer shortly!"
+            "  In the meantime, you can explore related topics such as:\n\n"
+            "* **The significance of karma** in the Bhagavad Gita\n" 
+            "* **The four paths of yoga** described in the Gita\n"
+            "* **The first sutra** of Patanjali Yoga Sutras and its meaning\n"
+            "* Patanjali's concept of **'Chitta Vritti Nirodha'**\n\n"
+            "_Stay tuned — we'll provide your answer shortly!_"
         ),
         "references": [
             {
-                "source": "No Source",
+                "source": "No Source", 
                 "chapter": "1",
                 "verse": "1",
                 "text": "No relevant verse available for this query."

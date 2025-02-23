@@ -15,17 +15,20 @@ interface ChatResponseProps {
 }
 
 const ChatResponse: FC<ChatResponseProps> = ({ summary, explanation, references, error }) => {
+    // Start summary immediately
     const { displayedText: displayedSummary, isComplete: isSummaryComplete } = useTypewriter(summary || '', 15);
+    
+    // Only start explanation after summary is complete
     const { displayedText: displayedExplanation, isComplete: isExplanationComplete } = useTypewriter(
         explanation || '', 
         10, 
-        isSummaryComplete // Only start typing explanation after summary is complete
+        !isSummaryComplete && !!summary // Delay only if there's a summary and it's not complete
     );
 
     // Determine when to show references
     const showReferences = (!summary && !explanation) || // Show immediately if no streaming content
                          (summary && !explanation && isSummaryComplete) || // Show after summary if no explanation
-                         (explanation && isExplanationComplete); // Show after both are complete
+                         (summary && explanation && isExplanationComplete); // Show after both are complete
 
     if (error) {
         return (
@@ -68,7 +71,7 @@ const ChatResponse: FC<ChatResponseProps> = ({ summary, explanation, references,
                 {/* Main Content */}
                 <div className="px-6 py-6 space-y-8">
                     {/* Summary Section */}
-                    {summary && (
+                    {summary && displayedSummary && (
                         <div className="animate-fade-in">
                             <div className="flex items-center space-x-2 mb-4">
                                 <div className="h-8 w-8 bg-amber-100 dark:bg-amber-900/50 rounded-lg flex items-center justify-center">
@@ -87,7 +90,7 @@ const ChatResponse: FC<ChatResponseProps> = ({ summary, explanation, references,
                     )}
 
                     {/* Detailed Answer Section */}
-                    {explanation && (
+                    {explanation && displayedExplanation && (
                         <div className="animate-fade-in">
                             <div className="flex items-center space-x-2 mb-4">
                                 <div className="h-8 w-8 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
