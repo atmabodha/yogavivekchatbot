@@ -29,20 +29,21 @@ def extract_json_dict(s):
 
 def get_json_response1():
     """Returns a default JSON response when query validation fails."""
-    data ={
-        "summary_answer": "We can only answer questions related to **Bhagavad Gita** or **Patanjali Yoga Sutras**.",
+    data = {
+        "summary_answer": "#  Invalid Query\n  We can only answer questions related to **Bhagavad Gita** or **Patanjali Yoga Sutras**.",
         "detailed_answer": (
-            "You can try asking questions like:\n\n"
-            "- What is the significance of karma in the Bhagavad Gita?\n"
-            "- What are the four paths of yoga described in the Gita?\n"
-            "- What is the first sutra of Patanjali Yoga Sutras and its meaning?\n"
-            "- How does Patanjali describe the concept of 'Chitta Vritti Nirodha'?\n\n"
-            "Feel free to ask anything related to these scriptures!"
+            "## Example Questions\n\n"
+            " You can try asking questions like:\n\n"
+            "* What is the significance of karma in the **Bhagavad Gita**?\n"
+            "* What are the four paths of yoga described in the **Gita**?\n" 
+            "* What is the first sutra of **Patanjali Yoga Sutras** and its meaning?\n"
+            "* How does Patanjali describe the concept of **'Chitta Vritti Nirodha'**?\n\n"
+            "_Feel free to ask anything related to these scriptures!_"
         ),
         "references": [
             {
                 "source": "No Source",
-                "chapter": "1",
+                "chapter": "1", 
                 "verse": "1",
                 "text": "No relevant verse available for this query."
             }
