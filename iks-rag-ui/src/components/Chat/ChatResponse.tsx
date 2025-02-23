@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { useTypewriter } from '@/hooks/useTypewriter';
 
 interface Reference {
     verse: string;
@@ -14,6 +15,18 @@ interface ChatResponseProps {
 }
 
 const ChatResponse: FC<ChatResponseProps> = ({ summary, explanation, references, error }) => {
+    const { displayedText: displayedSummary, isComplete: isSummaryComplete } = useTypewriter(summary || '', 15);
+    const { displayedText: displayedExplanation, isComplete: isExplanationComplete } = useTypewriter(
+        explanation || '', 
+        10, 
+        isSummaryComplete // Only start typing explanation after summary is complete
+    );
+
+    // Determine when to show references
+    const showReferences = (!summary && !explanation) || // Show immediately if no streaming content
+                         (summary && !explanation && isSummaryComplete) || // Show after summary if no explanation
+                         (explanation && isExplanationComplete); // Show after both are complete
+
     if (error) {
         return (
             <div className="max-w-4xl mx-auto">
@@ -66,7 +79,7 @@ const ChatResponse: FC<ChatResponseProps> = ({ summary, explanation, references,
                             <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-5 border border-amber-100 dark:border-amber-800">
                                 <div className="prose dark:prose-invert prose-amber prose-sm sm:prose-base max-w-none">
                                     <ReactMarkdown>
-                                        {summary}
+                                        {displayedSummary}
                                     </ReactMarkdown>
                                 </div>
                             </div>
@@ -91,7 +104,7 @@ const ChatResponse: FC<ChatResponseProps> = ({ summary, explanation, references,
                                             prose-li:text-gray-700 dark:prose-li:text-gray-300
                                             prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline">
                                     <ReactMarkdown>
-                                        {explanation}
+                                        {displayedExplanation}
                                     </ReactMarkdown>
                                 </div>
                             </div>
@@ -99,7 +112,7 @@ const ChatResponse: FC<ChatResponseProps> = ({ summary, explanation, references,
                     )}
 
                     {/* References Section */}
-                    {references && references.length > 0 && (
+                    {references && references.length > 0 && showReferences && (
                         <div className="animate-fade-in">
                             <div className="flex items-center space-x-2 mb-4">
                                 <div className="h-8 w-8 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
