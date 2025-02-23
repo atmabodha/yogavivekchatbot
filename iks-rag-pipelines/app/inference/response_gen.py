@@ -122,8 +122,8 @@ def get_bot_response(context="", question="",collection= ""):
    "references": [
         {
             "source": ,
-            "chapter": "Chapter number",
-            "verse": "Verse number",
+            "chapter": "Chapter number(if its mentioned in the question what chapter to use use that only(striclty use the chapter number mentioned in the question if any is mentioned))",
+            "verse": "Verse number((if its mentioned in the question what verse to use use that only(striclty use the verse number mentioned in the question if any is mentioned)))",
             "text": "Extract the verse from the context"
         }
     ]

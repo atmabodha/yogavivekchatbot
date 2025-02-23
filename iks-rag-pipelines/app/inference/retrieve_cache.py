@@ -1,7 +1,7 @@
 from sentence_transformers import SentenceTransformer
 import os
 from dotenv import load_dotenv
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient,models
 
 load_dotenv()
 
@@ -38,10 +38,10 @@ qdrant_client = QdrantClient(
 def retrieve_context_cache(query, collection_name = "QnA_collection"):
     query = query.lower()
     query_embedding = model.encode(query).tolist()
-    
     response = qdrant_client.query_points(collection_name=collection_name, query=query_embedding, limit=1)
     points = response.points
     score1 = points[0].score
+    print(points[0].id)
     translations = [point.payload['answer'] for point in points]
     if(score1 > 0.6):
         return translations[0]
