@@ -9,6 +9,17 @@ interface MessageListProps {
   messages: ChatMessage[];
 }
 
+interface ParsedResponse {
+  summary_answer?: string;
+  detailed_answer?: string;
+  references?: Array<{
+    source: string;
+    chapter: string;
+    verse: string;
+    text: string;
+  }>;
+}
+
 export default function MessageList({ messages }: MessageListProps) {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -18,12 +29,12 @@ export default function MessageList({ messages }: MessageListProps) {
     }
   }, [messages]);
 
-  const parseResponse = (parsed: any) => {
+  const parseResponse = (parsed: ParsedResponse) => {
     try {
       return {
         summary: parsed.summary_answer,
         explanation: parsed.detailed_answer,
-        references: parsed.references?.map((ref: any) => ({
+        references: parsed.references?.map((ref) => ({
           verse: `${ref.source} ${ref.chapter}:${ref.verse}`,
           text: ref.text
         })) || [],
@@ -54,7 +65,7 @@ export default function MessageList({ messages }: MessageListProps) {
             </div>
           ) : (
             <div className="max-w-[85%] md:max-w-[75%]">
-              <ChatResponse {...parseResponse(message.content)} />
+              <ChatResponse {...parseResponse(message.content as ParsedResponse)} />
             </div>
           )}
         </motion.div>

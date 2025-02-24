@@ -32,3 +32,12 @@ typing_extensions==4.12.2
 uvicorn==0.34.0
 watchfiles==1.0.4
 websockets==14.2
+python-dotenv
+sentence-transformers
+groq
+numpy<2
+pandas
+qdrant-client
+spacy
+better-profanity 
+nltk
