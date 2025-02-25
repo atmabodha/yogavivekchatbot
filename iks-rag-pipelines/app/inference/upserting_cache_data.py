@@ -31,7 +31,7 @@ def load_data(csv_path, collection_name, start_idx=0, end_idx=None, max_retries=
         """qdrant_client.delete(
             collection_name="QnA_collection",
             points_selector=models.PointIdsList(
-                points=[i for i in range(start_idx, end_idx)],
+                points=[1341],
             ),
         )"""
         
@@ -84,4 +84,4 @@ def load_data(csv_path, collection_name, start_idx=0, end_idx=None, max_retries=
         print(f"Critical error: {e}")
 
 # Example usage
-load_data("/Users/arunkaul/Desktop/yogavivekchatbot/iks-rag-pipelines/app/dataset/c_d.csv", "QnA_collection", start_idx=1517, end_idx=1682)
+load_data("/Users/arunkaul/Desktop/yogavivekchatbot/iks-rag-pipelines/app/dataset/c_d.csv", "QnA_collection", start_idx=1682, end_idx=1684)

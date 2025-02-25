@@ -1,5 +1,5 @@
 
-uvicorn api.main:app --reload
+
 
 
 # virtual environment
@@ -16,8 +16,14 @@ deactivate
 
 source deactivate
 
+#run backend apis
+uvicorn api.main:app --reload
 
-# run ui
+# run fronend ui
 npm run dev
+
+
+# docker 
+docker compose up --build
 
 
