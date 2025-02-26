@@ -3,8 +3,8 @@ services:
     name: iks-rag-ui
     runtime: node
     rootDir: iks-rag-ui
-    buildCommand: npm install && npm run build
-    startCommand: npm start
+    buildCommand: cd iks-rag-ui && npm install && npm run build
+    startCommand: cd iks-rag-ui && npm start
     envVars:
       - key: NEXT_PUBLIC_API_URL
         value: https://your-backend-url.onrender.com
