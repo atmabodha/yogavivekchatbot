@@ -1,4 +1,4 @@
-FROM continuumio/miniconda3:latest
+FROM --platform=linux/amd64 continuumio/miniconda3:latest
 
 # Set working directory
 WORKDIR /.

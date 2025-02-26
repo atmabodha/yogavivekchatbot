@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: iks-rag-ui
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        value: https://your-backend-url.onrender.com
+    autoDeploy: true 
