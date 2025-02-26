@@ -29,3 +29,19 @@ yarn run dev
 docker compose up --build
 
 
+
+#render ui
+buildCommand : cd iks-rag-ui && yarn && npx next build
+startCommand: cd iks-rag-ui && npx next start
+
+#render api
+
+buildCommand : cd iks-rag-pipelines && pip install -r api/requirements.txt
+startCommand : cd iks-rag-pipelines && uvicorn api.main:app --reload
+
+environment
+    QDRANT_API_KEY
+    GROQ_API_KEY
+    PORT
+
+

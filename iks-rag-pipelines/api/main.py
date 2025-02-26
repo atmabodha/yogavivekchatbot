@@ -40,7 +40,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "https://your-frontend-app.onrender.com"  # Add your Render.com frontend URL
+        "https://yogavivekchatbot-ui.onrender.com"
     ],
     allow_credentials=True,
     allow_methods=["*"],
