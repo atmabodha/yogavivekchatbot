@@ -3,10 +3,16 @@ services:
   - type: web
     name: iks-rag-ui
     runtime: node
-    rootDir: iks-rag-ui
-    buildCommand: npm install && npm run build
-    startCommand: npm start
+    buildCommand: |
+      cd iks-rag-ui
+      npm install
+      npm run build
+    startCommand: |
+      cd iks-rag-ui
+      npm run start
     envVars:
+      - key: NODE_ENV
+        value: production
       - key: NEXT_PUBLIC_API_URL
         value: https://your-backend-url.onrender.com
     autoDeploy: true
@@ -15,9 +21,12 @@ services:
   - type: web
     name: iks-rag-api
     runtime: python
-    rootDir: iks-rag-pipelines
-    buildCommand: pip install -r api/requirements.txt
-    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    buildCommand: |
+      cd iks-rag-pipelines
+      pip install -r api/requirements.txt
+    startCommand: |
+      cd iks-rag-pipelines
+      uvicorn api.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: QDRANT_API_KEY
         sync: false
