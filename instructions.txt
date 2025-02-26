@@ -22,6 +22,8 @@ uvicorn api.main:app --reload
 # run fronend ui
 npm run dev
 
+yarn run dev
+
 
 # docker 
 docker compose up --build
