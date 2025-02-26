@@ -30,18 +30,19 @@ docker compose up --build
 
 
 
-#render ui
-buildCommand : cd iks-rag-ui && yarn && npx next build
-startCommand: cd iks-rag-ui && npx next start
-
-#render api
-
+-------------------------SETUP------------------------
+#yogavivekchatbot-api
 buildCommand : cd iks-rag-pipelines && pip install -r api/requirements.txt
-startCommand : cd iks-rag-pipelines && uvicorn api.main:app --reload
+startCommand : cd iks-rag-pipelines && uvicorn api.main:app --host 0.0.0.0 --port $PORT
+OR
+startCommand : cd iks-rag-pipelines && gunicorn api.main:app --host 0.0.0.0 --port $PORT
 
 environment
-    QDRANT_API_KEY
-    GROQ_API_KEY
-    PORT
+    QDRANT_API_KEY=GhZNqwJ72rrxpkCGWwYl4QuIgusSes0Duq2ncPEnjp6TnAUQzsug6w
+    GROQ_API_KEY=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
+    PORT = 8001
 
+#yogavivekchatbot-api
+buildCommand : cd iks-rag-ui && yarn && npx next build
+startCommand: cd iks-rag-ui && npx next start
 
