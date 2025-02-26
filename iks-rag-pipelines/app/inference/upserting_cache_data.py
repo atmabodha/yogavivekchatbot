@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import sys
 sys.path.append('.')
 from app.inference.pipeline import pipeline_rag
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient,models
 from qdrant_client.http.models import PointStruct
 from qdrant_client.http.models import Distance, VectorParams
 from sentence_transformers import SentenceTransformer
@@ -27,6 +27,13 @@ def load_data(csv_path, collection_name, start_idx=0, end_idx=None, max_retries=
             url="https://bbe512e4-6b6e-475e-bfb5-fe04f5797900.europe-west3-0.gcp.cloud.qdrant.io:6333", 
             api_key=os.environ.get('QDRANT_API_KEY'),
         )
+
+        """qdrant_client.delete(
+            collection_name="QnA_collection",
+            points_selector=models.PointIdsList(
+                points=[1341],
+            ),
+        )"""
         
         collections = qdrant_client.get_collections()
         existing_collections = [col.name for col in collections.collections]
@@ -77,4 +84,4 @@ def load_data(csv_path, collection_name, start_idx=0, end_idx=None, max_retries=
         print(f"Critical error: {e}")
 
 # Example usage
-load_data("/Users/arunkaul/Desktop/yogavivekchatbot/iks-rag-pipelines/app/dataset/c_d.csv", "QnA_collection", start_idx=1109, end_idx=1682)
+load_data("/Users/arunkaul/Desktop/yogavivekchatbot/iks-rag-pipelines/app/dataset/c_d.csv", "QnA_collection", start_idx=1682, end_idx=1684)

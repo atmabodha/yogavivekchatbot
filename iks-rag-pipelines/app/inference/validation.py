@@ -26,6 +26,7 @@ def check_valid_answer(q="", a="", c=" "):
                     "7. if answer summary or detailed answer is not in markdown format inside the dictionary return 0 and if there is anything other than json output then return 0"
                     "If the answer violates any of these rules—such as introducing external knowledge, misrepresenting facts, "
                     "or deviating from the provided context—output '0'. "
+                    "also check if there is any chapter or verse mentioned in the question and if it is not used in the answer then return 0 (stricltly check for this)"
                     "Your response must only be '1' or '0', with no explanation or additional text."
                 ),
             },
