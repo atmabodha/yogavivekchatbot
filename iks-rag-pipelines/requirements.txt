@@ -1,5 +1,4 @@
 python-dotenv
-sentence-transformers
 groq
 numpy<2
 pandas
@@ -7,3 +6,5 @@ qdrant-client
 spacy
 better-profanity 
 nltk
+torch
+transformers
