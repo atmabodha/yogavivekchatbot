@@ -33,7 +33,6 @@ uvicorn==0.34.0
 watchfiles==1.0.4
 websockets==14.2
 python-dotenv
-sentence-transformers
 groq
 numpy<2
 pandas
