@@ -1,17 +1,13 @@
 import time
-from groq import Groq
 import os
-from better_profanity import profanity
-from dotenv import load_dotenv
-import sys
-sys.path.append('.')
-from app.inference.pipeline import pipeline_rag
-from qdrant_client import QdrantClient,models
-from qdrant_client.http.models import PointStruct
-from qdrant_client.http.models import Distance, VectorParams
-from sentence_transformers import SentenceTransformer
-import pandas as pd
 import random
+import pandas as pd
+import torch
+from transformers import AutoModel, AutoTokenizer
+from qdrant_client import QdrantClient
+from qdrant_client.http.models import PointStruct, Distance, VectorParams
+from dotenv import load_dotenv
+from app.inference.pipeline import pipeline_rag
 
 load_dotenv()
 
@@ -27,13 +23,6 @@ def load_data(csv_path, collection_name, start_idx=0, end_idx=None, max_retries=
             url="https://bbe512e4-6b6e-475e-bfb5-fe04f5797900.europe-west3-0.gcp.cloud.qdrant.io:6333", 
             api_key=os.environ.get('QDRANT_API_KEY'),
         )
-
-        """qdrant_client.delete(
-            collection_name="QnA_collection",
-            points_selector=models.PointIdsList(
-                points=[1341],
-            ),
-        )"""
         
         collections = qdrant_client.get_collections()
         existing_collections = [col.name for col in collections.collections]
@@ -47,15 +36,24 @@ def load_data(csv_path, collection_name, start_idx=0, end_idx=None, max_retries=
         else:
             print(f"Collection '{collection_name}' already exists. Using existing collection.")
 
-        # Load embedding model
-        model = SentenceTransformer("sentence-transformers/multi-qa-distilbert-cos-v1")
+        # Load embedding model from transformers
+        model_name = "sentence-transformers/multi-qa-distilbert-cos-v1"
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        model = AutoModel.from_pretrained(model_name)
+        model.eval()
+
+        def encode_text(text):
+            inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True, max_length=512)
+            with torch.no_grad():
+                outputs = model(**inputs)
+            return outputs.last_hidden_state[:, 0, :].squeeze().tolist()
 
         for i, idx in enumerate(range(start_idx, end_idx)):
             retries = 0
             while retries < max_retries:
                 try:
                     question_text = data['question'][idx]
-                    sentence_embedding = model.encode([question_text])[0]
+                    sentence_embedding = encode_text(question_text)
                     answer = pipeline_rag(question_text)
                     
                     # Upsert data into Qdrant
@@ -64,7 +62,7 @@ def load_data(csv_path, collection_name, start_idx=0, end_idx=None, max_retries=
                         points=[
                             {
                                 "id": idx,
-                                "vector": sentence_embedding.tolist(),
+                                "vector": sentence_embedding,
                                 "payload": {"Question": question_text, "answer": answer}
                             }
                         ]
