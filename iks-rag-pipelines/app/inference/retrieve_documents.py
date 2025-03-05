@@ -1,12 +1,20 @@
-from sentence_transformers import SentenceTransformer
 import os
+import torch
 from dotenv import load_dotenv
+from transformers import AutoModel, AutoTokenizer
 from qdrant_client import QdrantClient
 
 load_dotenv()
 
-# Load the embedding model
-model = SentenceTransformer("sentence-transformers/multi-qa-distilbert-cos-v1")
+# Load the tokenizer and model
+tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/multi-qa-distilbert-cos-v1")
+model = AutoModel.from_pretrained("sentence-transformers/multi-qa-distilbert-cos-v1")
+
+def encode_text(text):
+    inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
+    with torch.no_grad():
+        outputs = model(**inputs)
+    return outputs.last_hidden_state[:, 0, :].squeeze().tolist()
 
 # Connect to Qdrant
 qdrant_client = QdrantClient(
@@ -16,13 +24,9 @@ qdrant_client = QdrantClient(
 
 def retrieve_context(query, collection_name):
     query = query.lower()
-    query_embedding = model.encode(query).tolist()
+    query_embedding = encode_text(query)
     
     response = qdrant_client.query_points(collection_name=collection_name, query=query_embedding, limit=15)
     points = response.points  
     translations = [point.payload['translation'] for point in points]
     return " ".join(translations)
-
-
-
-
