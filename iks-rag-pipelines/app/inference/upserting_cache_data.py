@@ -36,7 +36,7 @@ def load_data(csv_path, collection_name, start_idx=0, end_idx=None, max_retries=
         else:
             print(f"Collection '{collection_name}' already exists. Using existing collection.")
 
-        # Load embedding model from transformers
+        # Change this according to need can be used with together api
         model_name = "sentence-transformers/multi-qa-distilbert-cos-v1"
         tokenizer = AutoTokenizer.from_pretrained(model_name)
         model = AutoModel.from_pretrained(model_name)

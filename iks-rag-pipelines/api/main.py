@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from dotenv import load_dotenv
 import sys
 sys.path.append('..')
-from app.inference.pipeline import pipeline_rag
+"""from app.inference.pipeline import pipeline_rag"""
 from app.inference.cache_pipeline import pipeline_rag_cache
 from app.inference.recommendation import get_recommended_questions
 from pydantic import BaseModel
@@ -157,7 +157,8 @@ async def regenerate_response(request: RegenerateRequest):
         new_response=dummy_response,
         references=dummy_references
     )
-class QueryRequest(BaseModel):
+
+"""class QueryRequest(BaseModel):
     query: str
 
 @app.post("/v1/response")
@@ -165,7 +166,7 @@ async def generate_response(request: QueryRequest):
     print(f"Received query: {request.query}")
     new_response = pipeline_rag(request.query)
     print(f"Generated response: {new_response}")
-    return {'response': new_response}
+    return {'response': new_response}"""
 
 
 class CacheRequest(BaseModel):

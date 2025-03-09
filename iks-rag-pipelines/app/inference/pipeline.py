@@ -1,4 +1,4 @@
-import time
+"""import time
 from groq import Groq
 import os
 from better_profanity import profanity
@@ -18,7 +18,6 @@ load_dotenv()
 client = Groq(api_key=os.getenv('GROQ_API_KEY'))
 
 def extract_json_dict(s):
-    """Extracts JSON dictionary from a string."""
     start = s.find('{')
     end = s.rfind('}')
     
@@ -33,7 +32,6 @@ def extract_json_dict(s):
         return None  # Invalid JSON format
 
 def get_json_response1():
-    """Returns a default JSON response when query validation fails."""
     data = {
         "summary_answer": "#  Invalid Query\n   We can only answer questions related to **Bhagavad Gita** or **Patanjali Yoga Sutras**.",
         "detailed_answer": (
@@ -57,7 +55,6 @@ def get_json_response1():
     return data
 
 def pipeline_rag(query, max_retries=3):
-    """Pipeline for retrieving answers using RAG."""
     start_time = time.time()
     query = query.lower()
     print(f"Step 1: Query converted to lowercase - {time.time() - start_time:.4f} sec")
@@ -104,3 +101,4 @@ def pipeline_rag(query, max_retries=3):
 
     print(f"Step 10: All retries failed, returning default response - {time.time() - start_time:.4f} sec")
     return get_json_response1()  # Return default response after max retries
+"""
