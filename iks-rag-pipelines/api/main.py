@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from dotenv import load_dotenv
 import sys
 sys.path.append('..')
-from app.inference.pipeline import pipeline_rag
-from app.inference.cache_pipeline import pipeline_rag_cache
+"""from app.inference.pipeline import pipeline_rag
+from app.inference.cache_pipeline import pipeline_rag_cache"""
 from app.inference.recommendation import get_recommended_questions
 from pydantic import BaseModel
 from typing import List

@@ -1,4 +1,4 @@
-import os
+"""import os
 import torch
 from dotenv import load_dotenv
 from transformers import AutoModel, AutoTokenizer
@@ -29,4 +29,4 @@ def retrieve_context(query, collection_name):
     response = qdrant_client.query_points(collection_name=collection_name, query=query_embedding, limit=15)
     points = response.points  
     translations = [point.payload['translation'] for point in points]
-    return " ".join(translations)
+    return " ".join(translations)"""

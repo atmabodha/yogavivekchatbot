@@ -1,4 +1,4 @@
-import os
+"""import os
 import torch
 from dotenv import load_dotenv
 from qdrant_client import QdrantClient
@@ -39,3 +39,4 @@ def get_best_match(query: str, collection1: str = "yoga_collection", collection2
         best_collection = collection2 if query.lower().count("gita") > query.lower().count("yoga") else collection1
 
     return best_collection
+"""

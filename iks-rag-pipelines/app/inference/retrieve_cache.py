@@ -1,32 +1,19 @@
-import torch
 import os
 from dotenv import load_dotenv
-from transformers import AutoModel, AutoTokenizer
 from qdrant_client import QdrantClient, models
+from together import Together
+
 
 load_dotenv()
 
-# Load tokenizer and model
-MODEL_NAME = "sentence-transformers/multi-qa-distilbert-cos-v1"
-tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
-model = AutoModel.from_pretrained(MODEL_NAME)
-
-# Move model to CUDA if available
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model.to(device)
-
+client = Together(api_key=os.getenv('TOGETHER_API_KEY'))
 def encode_text(query):
-    tokens = tokenizer(query, return_tensors="pt", padding=True, truncation=True)
-    
-    # Move tokens to the same device as model
-    tokens = {key: val.to(device) for key, val in tokens.items()}
-
-    with torch.no_grad():
-        output = model(**tokens)
-
-    # Mean pooling to get a fixed-size embedding
-    embedding = output.last_hidden_state.mean(dim=1).squeeze().cpu().numpy()
-    return embedding.tolist()
+    response = client.embeddings.create(
+    model="BAAI/bge-base-en-v1.5",
+    input=query.lower()
+    )
+    t = response.data[0].embedding
+    return list(t)
 
 def mock_response():
     """Returns a default response when no relevant answer is found."""
@@ -57,7 +44,6 @@ qdrant_client = QdrantClient(
 )
 
 def retrieve_context_cache(query, collection_name="QnA_collection"):
-    """Retrieves relevant context from Qdrant based on query similarity."""
     query = query.lower()
     query_embedding = encode_text(query)
     
@@ -69,8 +55,9 @@ def retrieve_context_cache(query, collection_name="QnA_collection"):
 
     score = points[0].score
     print(points[0].id)
+    print(score)
 
-    if score > 0.6:
+    if score > 0.27:
         return points[0].payload['answer']
     else:
         return mock_response()
