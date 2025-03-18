@@ -40,7 +40,7 @@ def keyword_search(query):
 
     top_questions = [q[0] for q in sorted_questions[:5] if q[1] > 0]
 
-    return {"suggestions": top_questions if top_questions else ["No relevant questions found."]}
+    return {"suggestions": top_questions if top_questions else []}
 
 def get_recommended_questions(query):
     if len(query.split(" ")) > 4:
