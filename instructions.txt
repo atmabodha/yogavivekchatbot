@@ -32,7 +32,7 @@ docker compose up --build
 
 -------------------------SETUP------------------------
 #yogavivekchatbot-api
-buildCommand : cd iks-rag-pipelines && pip install -r api/requirements.txt
+buildCommand : cd iks-rag-pipelines && pip install -r api/requirements.txt && pip install scikit-learn && pip install together
 startCommand : cd iks-rag-pipelines && uvicorn api.main:app --host 0.0.0.0 --port $PORT
 OR
 startCommand : cd iks-rag-pipelines && gunicorn api.main:app --host 0.0.0.0 --port $PORT
@@ -42,7 +42,7 @@ environment
     GROQ_API_KEY=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
     PORT = 8001
 
-#yogavivekchatbot-api
+#yogavivekchatbot-ui
 buildCommand : cd iks-rag-ui && yarn && npx next build
 startCommand: cd iks-rag-ui && npx next start
 
