@@ -39,10 +39,10 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        "https://www.yogavivek.org",
         "https://yogavivekchatbot-ui.onrender.com",
         "https://books-67622.web.app",
-        "https://yogavivek-4haf.onrender.com",
-        "https://yogavivek.org"
+        "https://yogavivek-4haf.onrender.com"
     ],
     allow_credentials=True,
     allow_methods=["*"],
