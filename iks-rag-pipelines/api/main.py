@@ -41,6 +41,8 @@ app.add_middleware(
     allow_origins=[
         "https://yogavivekchatbot-ui.onrender.com",
         "https://books-67622.web.app",
+        "https://yogavivek-4haf.onrender.com"
+        "https://yogavivek.org"
     ],
     allow_credentials=True,
     allow_methods=["*"],
