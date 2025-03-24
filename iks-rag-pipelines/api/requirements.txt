@@ -39,6 +39,3 @@ pandas
 qdrant-client
 spacy
 better-profanity 
-nltk
-torch
-transformers

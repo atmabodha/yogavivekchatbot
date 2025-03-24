@@ -5,5 +5,4 @@ pandas
 qdrant-client
 spacy
 better-profanity 
-nltk
 together
