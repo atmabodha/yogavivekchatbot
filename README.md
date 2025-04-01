@@ -209,9 +209,9 @@ docker-compose up --build
 This project is licensed under the **MIT License**. Feel free to contribute! 🚀
 
 ---
-
 ## 🎯 Contributors
--**To be updated**
+- Aryan Kaul
+- To be Updated
 
 💡 *Open to contributions! Feel free to fork and improve!* 😃
 
