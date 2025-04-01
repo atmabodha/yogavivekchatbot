@@ -43,6 +43,7 @@ app.add_middleware(
         "https://yogavivekchatbot-ui.onrender.com",
         "https://books-67622.web.app",
         "https://yogavivek-4haf.onrender.com",
+        "*"
     ],
     allow_credentials=True,
     allow_methods=["*"],
